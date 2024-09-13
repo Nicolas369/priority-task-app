@@ -1,0 +1,7 @@
+[ ] organized github
+[ ] make remote-repo for this proyect
+[ ] make plant of develop
+[ ] make git-commit strategy
+[ ] road map with all.
+[ ] time line to this.
+...
