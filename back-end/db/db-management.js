@@ -25,7 +25,7 @@ function validateTask(task) { // private...
 }
 
 function getTaskList() {
-    const rawData = fs.readFileSync('./db.json');
+    const rawData = fs.readFileSync(__dirname + '/db.json');
     const data = JSON.parse(rawData);
     return data.taskList;
 }
@@ -39,7 +39,8 @@ function getIndividualTask(taskId) {
 function storeTaskList(list) { // private...
     list = list.sort((a, b) => a.id - b.id);
     const taskList = { taskList: list }
-    fs.writeFileSync('./db.json', JSON.stringify(taskList));   
+    console.log(taskList)
+    fs.writeFileSync(__dirname + '/db.json', JSON.stringify(taskList));   
 }
 
 function addTask(task) {
@@ -54,8 +55,9 @@ function addTask(task) {
 
 function deleteTask(taskId) {
     const taskList = getTaskList();
-    const taskToRemove = getIndividualTask(taskId);
+    const taskToRemove = taskList.find(task => task.id === taskId);
     validateTask(taskToRemove);
+    console.log(taskToRemove, taskList.indexOf(taskToRemove));
     taskList.splice(taskList.indexOf(taskToRemove), 1);
     storeTaskList(taskList);
     return true;
@@ -94,10 +96,3 @@ module.exports = {
  *   | id (key)     | number     |
  *   +--------------+------------+
  */
-
-
-
-// updateTask({ isComplete: true, priorityLv: 3 ,tile: "task-title 333", description: "task-description", date: new Date()});
-addTask({ isComplete: false, priorityLv: 3, title: "task-title", description: "task-description", date: new Date() });
-// deleteTask(5)
-// console.log(getTaskList());
