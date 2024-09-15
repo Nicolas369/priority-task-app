@@ -1,6 +1,6 @@
 const express = require("express");
-const expressRouter = require("./routers/express-router");
-const startGraphqlRouter = require("./routers/graphql-router");
+const expressRouter = require("./express/router");
+const startGraphqlRouter = require("./graphql/router");
 
 const app = express();
 

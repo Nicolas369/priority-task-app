@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const expressHandler = require("../handle-queries/express-queries");
+const expressHandler = require("./handlers");
 
 router.get("/get-task-list", expressHandler.getTaskList);
 router.post("/add-task", expressHandler.addTask);
