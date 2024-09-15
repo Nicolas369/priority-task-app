@@ -1,10 +1,18 @@
 const express = require("express");
-const expressRouter = require("./router/express-router");
+const expressRouter = require("./routers/express-router");
+const startGraphqlRouter = require("./routers/graphql-router");
 
 const app = express();
-app.use(express.json());
-app.use("/express", expressRouter);
 
-app.get("/", (req, res) => res.send("Hello World!"));
+const startAPI = async () => {
+    app.use(express.json());
 
-app.listen(7000, () => console.log("backend running in port 7000"));
+    app.get("/", (req, res) => res.send("Api Live!!!"));
+
+    app.use("/express", expressRouter);
+    await startGraphqlRouter(app);
+
+    app.listen({ port: 7000 }, () => console.log("Api running in port 7000"));
+}
+
+startAPI();

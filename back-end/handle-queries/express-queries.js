@@ -1,6 +1,4 @@
-const express = require('express');
-const router = express.Router();
-const db = require("../db/db-management");
+const db = require("../db/db-interface");
 
 const sendTaskList = (res) => {
     const tasks = db.getTaskList();
@@ -8,11 +6,9 @@ const sendTaskList = (res) => {
     res.send(data);
 }
 
-router.get("/task-list", async (req, res) => {
-    sendTaskList(res);
-});
+const getTaskList = (req, res) => sendTaskList(res);
 
-router.post("/add-task", (req, res) => {
+const addTask = (req, res) => {
     
     const task = { // [ ] move to utils file
         isComplete: req.body.isComplete,
@@ -24,17 +20,21 @@ router.post("/add-task", (req, res) => {
 
     db.addTask(task);
     sendTaskList(res);
-});
+};
 
-router.put("/update-task", (req, res) => {
+const updateTask = (req, res) => {
     db.updateTask(req.body);
     sendTaskList(res);
-});
+};
 
-router.delete("/delete-task", (req, res) => {
+const deleteTask = (req, res) => {
     db.deleteTask(req.body.id);
     sendTaskList(res);
-});
+};
 
-
-module.exports = router;
+module.exports = {
+    deleteTask,
+    updateTask,
+    addTask,
+    getTaskList
+}

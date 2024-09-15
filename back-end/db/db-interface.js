@@ -1,6 +1,24 @@
+
 const fs = require('fs');
 
-function isTask(task) {
+/**
+ *   task schema
+ *   +--------------+------------+
+ *   |   col_name   | data_type  | 
+ *   +--------------+------------+
+ *   | tile         | string     |
+ *   | description  | string     |
+ *   | priorityLv   | number     |
+ *   | isComplete   | boolean    |
+ *   | date         | Date       |
+ *   | id (key)     | number     |
+ *   +--------------+------------+
+ */
+
+function isTask(task) { 
+    // [ ] pass this to utils folder 
+    // [ ] make create task function in utils folder. 
+
     if (
         task.title && 
         task.description && 
@@ -18,22 +36,10 @@ function isTask(task) {
     }
 }
 
-function validateTask(task) { // private...
-    if (!isTask(task)) {
-        throw Error("BadEntryError: no task... ");
-    }
-}
-
 function getTaskList() {
     const rawData = fs.readFileSync(__dirname + '/db.json');
     const data = JSON.parse(rawData);
     return data.taskList;
-}
-
-function getIndividualTask(taskId) {
-    const taskList = getTaskList();
-    const individualTask = taskList.find(task => task.id === taskId);
-    return individualTask
 }
 
 function storeTaskList(list) { // private...
@@ -42,6 +48,20 @@ function storeTaskList(list) { // private...
     console.log(taskList)
     fs.writeFileSync(__dirname + '/db.json', JSON.stringify(taskList));   
 }
+
+function validateTask(task) { // private...
+    if (!isTask(task)) { // [ ] pass this to utils folder 
+        throw Error("BadEntryError: no task... ");
+    }
+}
+
+function getIndividualTask(taskId) {
+    const taskList = getTaskList();
+    const individualTask = taskList.find(task => task.id === taskId);
+    return individualTask
+}
+
+
 
 function addTask(task) {
     validateTask(task);
@@ -82,17 +102,3 @@ module.exports = {
     updateTask,
     isTask
 }
-
-/**
- *   task schema
- *   +--------------+------------+
- *   |   col_name   | data_type  | 
- *   +--------------+------------+
- *   | tile         | string     |
- *   | description  | string     |
- *   | priorityLv   | number     |
- *   | isComplete   | boolean    |
- *   | date         | Date       |
- *   | id (key)     | number     |
- *   +--------------+------------+
- */
