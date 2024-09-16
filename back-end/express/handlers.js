@@ -1,23 +1,16 @@
 const db = require("../db/db-interface");
+const { createTask } = require("../utils/task");
 
 const sendTaskList = (res) => {
     const tasks = db.getTaskList();
-    const data = JSON.stringify(tasks)
+    const data = JSON.stringify(tasks);
     res.send(data);
 }
 
 const getTaskList = (req, res) => sendTaskList(res);
 
 const addTask = (req, res) => {
-    
-    const task = { // [ ] move to utils file
-        isComplete: req.body.isComplete,
-        priorityLv: req.body.priorityLv,
-        title: req.body.title,
-        description: req.body.description,
-        date: req.body.date 
-    };
-
+    const task = createTask(req.body);
     db.addTask(task);
     sendTaskList(res);
 };

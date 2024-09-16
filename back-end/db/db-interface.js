@@ -1,5 +1,5 @@
-
 const fs = require('fs');
+const { validateTask } = require("../utils/task");
 
 /**
  *   task schema
@@ -15,53 +15,25 @@ const fs = require('fs');
  *   +--------------+------------+
  */
 
-function isTask(task) { 
-    // [ ] pass this to utils folder 
-    // [ ] make create task function in utils folder. 
-
-    if (
-        task.title && 
-        task.description && 
-        task.priorityLv && 
-        typeof task.isComplete === "boolean" && 
-        task.date
-    ) {
-    
-        return true;
-    
-    } else {
-
-        return false;
-    
-    }
-}
-
 function getTaskList() {
     const rawData = fs.readFileSync(__dirname + '/db.json');
     const data = JSON.parse(rawData);
     return data.taskList;
 }
 
-function storeTaskList(list) { // private...
+function storeTaskList(list) {
     list = list.sort((a, b) => a.id - b.id);
     const taskList = { taskList: list }
     console.log(taskList)
     fs.writeFileSync(__dirname + '/db.json', JSON.stringify(taskList));   
 }
 
-function validateTask(task) { // private...
-    if (!isTask(task)) { // [ ] pass this to utils folder 
-        throw Error("BadEntryError: no task... ");
-    }
-}
-
 function getIndividualTask(taskId) {
     const taskList = getTaskList();
     const individualTask = taskList.find(task => task.id === taskId);
-    return individualTask
+    console.log(individualTask);
+    return individualTask;
 }
-
-
 
 function addTask(task) {
     validateTask(task);
@@ -89,6 +61,7 @@ function updateTask(task) {
     const taskForUpdate = taskList.find(t => t.id === task.id);
     taskList[taskList.indexOf(taskForUpdate)] = task;
     storeTaskList(taskList);
+    console.log(taskList)
     return true;
 }
 
@@ -99,6 +72,5 @@ module.exports = {
     storeTaskList,
     addTask,
     deleteTask,
-    updateTask,
-    isTask
+    updateTask
 }
