@@ -12,6 +12,7 @@ const { validateTask } = require("../utils/task");
  *   | isComplete   | boolean    |
  *   | date         | Date       |
  *   | id (key)     | number     |
+ *                                // [ ] add order field 
  *   +--------------+------------+
  */
 
@@ -46,6 +47,7 @@ function addTask(task) {
 }
 
 function deleteTask(taskId) {
+    taskId = typeof taskId === `string` ? parseInt(taskId) : taskId;
     const taskList = getTaskList();
     const taskToRemove = taskList.find(task => task.id === taskId);
     validateTask(taskToRemove);
@@ -61,7 +63,6 @@ function updateTask(task) {
     const taskForUpdate = taskList.find(t => t.id === task.id);
     taskList[taskList.indexOf(taskForUpdate)] = task;
     storeTaskList(taskList);
-    console.log(taskList)
     return true;
 }
 
