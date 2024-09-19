@@ -1,73 +1,74 @@
-import { useState } from "react";
 import LongCardItem from "../../components/long-card-item";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from 'uuid';
+import { setTasksList } from "../../store/slices/task-slice";
+import { Task } from "../../definitions/redux-definitions";
 
-const styles: any = { // style={styles.main} 
+type Styles = {
+  main: any;
+}
+
+const styles: Styles = {
   main: {
-    width: "50vw",
+    width: "fit-content",
+    padding: "10px",
+    margin: "10px",
     display: "flex",
     height: "500px",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "start",
     alignItems: "center",
+    border: "solid 1px #ffffff",
+    overflowY: "scroll",
   },
-  container: {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    justifyContent: "space-around",
-    alignItems: "center",
-  }
 };
 
-const TaskPage = ({ tasksList }: { tasksList: any[] }) => {
+const TaskPage = ({ tasksList }: { tasksList: Task[] }) => {
 
-  const [tasks, setTasks] = useState(tasksList); // this will be redux.
+  const dispatch = useDispatch();
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
-    
-    const items = Array.from(tasks);
+
+    const items = Array.from(tasksList);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    setTasks(items);
+    dispatch(setTasksList(items));
   };
 
   return (
+    <>
+      {/* D&D */}
       <DragDropContext onDragEnd={onDragEnd}>
-        <div style={styles.container}>
-        <div style={styles.main}>
-          <Droppable droppableId="droppableId1">
-            
-            {(provided) => (
-              <div ref={provided.innerRef} {...provided.droppableProps}>
+        <Droppable droppableId={uuidv4()}>
+          {(provided) => (
+            <div style={styles.main} ref={provided.innerRef} {...provided.droppableProps}>
 
-                {tasks.map((task, i) => (
-                  
-                  <Draggable
-                    key={Math.random()}
-                    draggableId={task.id.toString()}
-                    index={i}
-                  >
-                  
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <LongCardItem item={task.title} />
-                      </div>
-                    )}
-
-                  </Draggable>
-                ))}
-              </div>
-            )}
-          </Droppable>
-        </div>
-      </div>
-    </DragDropContext>
+              {tasksList.map((task, i) => (
+                
+                <Draggable
+                  key={uuidv4()}
+                  draggableId={`${task.id}`}
+                  index={i}
+                >
+                
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <LongCardItem item={task.title} />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </>
   );
 };
 

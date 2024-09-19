@@ -1,4 +1,10 @@
+import { useEffect } from "react";
 import TaskPage from "./tasks-page/tasks-page";
+import { useTasksListSelector } from "../store/selectors/tasks-selector";
+import { useDispatch } from "react-redux";
+import { Task } from "../definitions/redux-definitions";
+import { AppDispatch } from "../store";
+import { tasksREST_GET } from "../http/axios-rest/axiosAsyncThunks";
 
 const styles: any = {
   main: {
@@ -16,18 +22,14 @@ const styles: any = {
 }
 
 function App() {
+  const tasksListRedux: Task[] = useTasksListSelector();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const mokedTask = [
-    {title: "task-1", id: 11},
-    {title: "task-2", id: 12},
-    {title: "task-3", id: 13},
-    {title: "task-4", id: 14},
-    {title: "task-5", id: 15}
-  ];
+  useEffect(() => { dispatch(tasksREST_GET.fetchTasksList()) }, []);
 
   return (
     <div style={styles.main}>
-      <TaskPage tasksList={mokedTask} />
+      <TaskPage tasksList={tasksListRedux} />
     </div>
   );
 }
