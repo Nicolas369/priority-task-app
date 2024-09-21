@@ -2,8 +2,11 @@ import LongCardItem from "../../components/long-card-item";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
-import { setTasksList } from "../../store/slices/task-slice";
 import { Task } from "../../definitions/redux-definitions";
+import { taskGraphQL_Mutation, taskGraphQL_Query } from "../../http/graphql/graphqlAsyncThunks";
+import { AppDispatch } from "../../store";
+import { tasksREST_POST } from "../../http/axios-rest/axiosAsyncThunks";
+import { setTasksList } from "../../store/slices/task-slice";
 
 type Styles = {
   main: any;
@@ -25,16 +28,20 @@ const styles: Styles = {
 };
 
 const TaskPage = ({ tasksList }: { tasksList: Task[] }) => {
+  const sortedTasksList = [...tasksList].sort((a, b) => a.taskOrder - b.taskOrder );
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
 
-    const items = Array.from(tasksList);
+    const items = Array.from(sortedTasksList);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    dispatch(setTasksList(items));
+    const orderList: Task[] = items.map((task, i) =>{ return({...task, taskOrder: i+1 })});
+
+    dispatch(taskGraphQL_Mutation.updateTaskLIstOrder( orderList ));
+    dispatch(setTasksList( orderList ));
   };
 
   return (
@@ -45,7 +52,7 @@ const TaskPage = ({ tasksList }: { tasksList: Task[] }) => {
           {(provided) => (
             <div style={styles.main} ref={provided.innerRef} {...provided.droppableProps}>
 
-              {tasksList.map((task, i) => (
+              {sortedTasksList.map((task, i) => (
                 
                 <Draggable
                   key={uuidv4()}
@@ -59,7 +66,7 @@ const TaskPage = ({ tasksList }: { tasksList: Task[] }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <LongCardItem item={task.title} />
+                      <LongCardItem item={`${task.taskOrder}: >  ${task.title}`} />
                     </div>
                   )}
                 </Draggable>

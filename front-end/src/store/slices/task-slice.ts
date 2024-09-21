@@ -18,10 +18,18 @@ export const taskSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Axios asyncThunks
       .addCase(tasksREST_GET.fetchTasksList.fulfilled, (state, action) => {
         state.list = action.payload;
       })
       .addCase(tasksREST_GET.fetchTasksList.rejected, (state, action) => {
+        console.error(action.error.message); // [ ] handle error
+      })
+      .addCase(tasksREST_POST.updateTasksListOrder.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.list = action.payload;
+      })
+      .addCase(tasksREST_POST.updateTasksListOrder.rejected, (state, action) => {
         console.error(action.error.message); // [ ] handle error
       })
       .addCase(tasksREST_POST.addTask.fulfilled, (state, action) => {
@@ -42,11 +50,19 @@ export const taskSlice = createSlice({
       .addCase(tasksREST_POST.updateTask.rejected, (state, action) => {
         console.error(action.error.message); // [ ] handle error
       })
-      // GraphQl asynThunks
+
+      // GraphQl asyncThunks
       .addCase(taskGraphQL_Query.getTasksList.fulfilled, (state, action) => {
         state.list = action.payload;
       })
       .addCase(taskGraphQL_Query.getTasksList.rejected, (state, action) => {
+        console.error(action.error.message); // [ ] handle error
+      })
+      .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.list = action.payload;
+      })
+      .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.rejected, (state, action) => {
         console.error(action.error.message); // [ ] handle error
       })
       .addCase(taskGraphQL_Mutation.addTask.fulfilled, (state, action) => {

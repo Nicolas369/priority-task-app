@@ -1,11 +1,26 @@
 import { gql } from "@apollo/client";
 
+const updateTaskLIstOrder = gql`
+  mutation($taskList: InputUpdateTaskLIstOrder!) {
+    updateTaskList(taskList: $taskList) {
+      title
+      description
+      taskOrder
+      isComplete
+      priorityLv
+      date
+      id
+    }
+  }
+`;
+
 const addTask = gql`
   mutation($task: InputAddTask!) {
     addTask(task: $task) {
       description
       priorityLv
       isComplete
+      taskOrder
       title
       date
       id
@@ -19,6 +34,7 @@ const updateTask = gql`
       description
       isComplete
       priorityLv
+      taskOrder
       title
       date
       id
@@ -32,6 +48,7 @@ const deleteTask = gql`
       description
       isComplete
       priorityLv
+      taskOrder
       title
       date
       id
@@ -39,4 +56,4 @@ const deleteTask = gql`
   }
 `;
 
-export const graphqlMutations = { addTask, updateTask, deleteTask };
+export const graphqlMutations = { updateTaskLIstOrder, addTask, updateTask, deleteTask };

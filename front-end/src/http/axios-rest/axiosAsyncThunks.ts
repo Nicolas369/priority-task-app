@@ -11,6 +11,15 @@ const fetchTasksList = createAsyncThunk(
   }
 );
 
+const updateTasksListOrder = createAsyncThunk(
+  "TaskListSlice/Axios/updateTasksListOrder",
+  async (list: Task[] ) => {
+    const { data }: AxiosResponse = await axiosClient.post<Task[]>("/update-tasks-list-order", { list });
+    return data;
+  }
+);
+
+
 const addTask = createAsyncThunk(
   "TaskListSlice/Axios/addTask",
   async (task: Task) => {
@@ -38,5 +47,5 @@ const updateTask = createAsyncThunk(
 );
 
 export const tasksREST_GET = { fetchTasksList }; 
-export const tasksREST_POST = { addTask, updateTask };
+export const tasksREST_POST = { addTask, updateTask, updateTasksListOrder };
 export const tasksREST_DELETE = { deletTask };

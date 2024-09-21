@@ -7,6 +7,7 @@ const getTaskList = gql`
       id
       description
       date
+      taskOrder
       priorityLv
       isComplete
     }

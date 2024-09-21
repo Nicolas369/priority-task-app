@@ -15,12 +15,25 @@ export const getTasksList = createAsyncThunk(
     }
 );
 
+export const updateTaskLIstOrder = createAsyncThunk(
+    "TaskListSlice/GraphQl/updateTaskLIstOrder",
+    async (list: Task[]) => {
+        const taskList = { list };
+        list.forEach((task: any) => {delete task.__typename;});
+        const { data } = await apolloClient.mutate({
+            mutation: graphqlMutations.updateTaskLIstOrder,
+            variables: { taskList }
+        });
+        return data.updateTaskList;
+    }
+);
+
 export const addTask = createAsyncThunk(
     "TaskListSlice/GraphQl/addTask",
     async (task: Task) => {
         const { data } = await apolloClient.mutate({
-            variables: { task },
-            mutation: graphqlMutations.addTask
+            mutation: graphqlMutations.addTask,
+            variables: { task }
         });
         return data.addTask;
     }
@@ -30,8 +43,8 @@ export const updateTask = createAsyncThunk(
     "TaskListSlice/GraphQl/updateTask",
     async (task: Task) => {
         const { data } = await apolloClient.mutate({
-            variables: { task },
-            mutation: graphqlMutations.updateTask
+            mutation: graphqlMutations.updateTask,
+            variables: { task }
         });
         return data.updateTask;
     }
@@ -41,12 +54,12 @@ export const deleteTask = createAsyncThunk(
     "TaskListSlice/GraphQl/deleteTask",
     async (taskId: number) => {
         const { data } = await apolloClient.mutate({
-            variables: { taskId },
-            mutation: graphqlMutations.deleteTask
+            mutation: graphqlMutations.deleteTask,
+            variables: { taskId }
         });
         return data.deleteTask;
     }
 );
 
 export const taskGraphQL_Query = { getTasksList };
-export const taskGraphQL_Mutation = { addTask, updateTask, deleteTask };
+export const taskGraphQL_Mutation = { addTask, updateTask, deleteTask, updateTaskLIstOrder };
