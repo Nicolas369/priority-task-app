@@ -4,7 +4,7 @@ import { axiosClient } from "./index";
 import { Task } from "../../definitions/redux-definitions";
 
 const fetchTasksList = createAsyncThunk(
-  "TaskListSlice/getTaskLIst",
+  "TaskListSlice/Axios/getTaskLIst",
   async () => {
     const { data }: AxiosResponse = await axiosClient.get<Task[]>("/get-tasks-list");
     return data;
@@ -12,15 +12,15 @@ const fetchTasksList = createAsyncThunk(
 );
 
 const addTask = createAsyncThunk(
-  "TaskListSlice/addTask",
+  "TaskListSlice/Axios/addTask",
   async (task: Task) => {
-      const { data }: AxiosResponse = await axiosClient.post<Task[]>("/add-task", { task });
+    const { data }: AxiosResponse = await axiosClient.post<Task[]>("/add-task", { task });
     return data;
   }
 );
 
 const deletTask = createAsyncThunk(
-  "TaskListSlice/deletTask",
+  "TaskListSlice/Axios/deletTask",
   async (taskID: string) => {
     const params: { id: number } = { id: parseInt(taskID) } 
     const { data }: AxiosResponse = await axiosClient.delete<Task[]>("/delete-task", { params });
@@ -29,7 +29,7 @@ const deletTask = createAsyncThunk(
 );
 
 const updateTask = createAsyncThunk(
-  "TaskListSlice/updateTask",
+  "TaskListSlice/Axios/updateTask",
   async (task: Task) => {
     task = { ...task, id: typeof task.id === `string` ? parseInt(task.id) : task.id }
     const { data }: AxiosResponse = await axiosClient.post<Task[]>("/update-task", { task });

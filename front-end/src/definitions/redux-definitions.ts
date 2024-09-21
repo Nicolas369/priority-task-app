@@ -1,6 +1,6 @@
 export type Task = {
     title: string;
-    id: string | number;
+    id?: string | number;
     description: string;
     priorityLv: number;
     isComplete: boolean;

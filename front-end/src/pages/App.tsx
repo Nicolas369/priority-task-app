@@ -4,7 +4,7 @@ import { useTasksListSelector } from "../store/selectors/tasks-selector";
 import { useDispatch } from "react-redux";
 import { Task } from "../definitions/redux-definitions";
 import { AppDispatch } from "../store";
-import { tasksREST_GET } from "../http/axios-rest/axiosAsyncThunks";
+import { taskGraphQL_Query } from "../http/graphql/graphqlAsyncThunks";
 
 const styles: any = {
   main: {
@@ -22,10 +22,13 @@ const styles: any = {
 }
 
 function App() {
-  const tasksListRedux: Task[] = useTasksListSelector();
   const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => { dispatch(tasksREST_GET.fetchTasksList()) }, []);
+  const tasksListRedux: Task[] = useTasksListSelector();
+  
+  useEffect(() => { 
+    // dispatch(tasksREST_GET.fetchTasksList()); 
+    dispatch(taskGraphQL_Query.getTasksList());
+  }, []);
 
   return (
     <div style={styles.main}>
