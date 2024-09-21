@@ -1,7 +1,7 @@
 const express = require("express");
 const expressRouter = require("./express/router");
 const startGraphqlRouter = require("./graphql/router");
-const cors = require("cors")
+const cors = require("cors");
 
 const app = express();
 app.use(cors()); // [ ] configure this right.

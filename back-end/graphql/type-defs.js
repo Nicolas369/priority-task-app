@@ -8,6 +8,7 @@ const typeDefs = gql`
         description: String!
         priorityLv: Int!
         isComplete: Boolean!
+        taskOrder: Int!
         date: Date!
         id: ID!
     }
@@ -17,6 +18,7 @@ const typeDefs = gql`
         description: String!
         priorityLv: Int!
         isComplete: Boolean!
+        taskOrder: Int!
         date: Date!
     }
 
@@ -25,19 +27,25 @@ const typeDefs = gql`
         description: String!
         priorityLv: Int!
         isComplete: Boolean!
+        taskOrder: Int!
         date: Date!
         id: ID!
     }
 
+    input InputUpdateTaskLIstOrder {
+        list: [InputUpdateTask]!
+    }
+
     type Query {
         getTasksList: [Task]!
-        getTask(taskId:ID): Task
+        getTask(taskId:ID!): Task!
     }
 
     type Mutation {
-        addTask(task: InputAddTask!): [Task]
-        updateTask(task: InputUpdateTask!): [Task]
-        deleteTask(taskId:ID): [Task]
+        updateTaskList(taskList: InputUpdateTaskLIstOrder!): [Task]!
+        addTask(task: InputAddTask!): [Task]!
+        updateTask(task: InputUpdateTask!): [Task]!
+        deleteTask(taskId:ID!): [Task]!
     }
 `;
 

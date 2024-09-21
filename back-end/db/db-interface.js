@@ -9,10 +9,10 @@ const { validateTask } = require("../utils/task");
  *   | tile         | string     |
  *   | description  | string     |
  *   | priorityLv   | number     |
+ *   | taskOrder    | number     |
  *   | isComplete   | boolean    |
  *   | date         | Date       |
  *   | id (key)     | number     |
- *                                // [ ] add order field 
  *   +--------------+------------+
  */
 
@@ -25,7 +25,6 @@ function getTaskList() {
 function storeTaskList(list) {
     list = list.sort((a, b) => a.id - b.id);
     const taskList = { taskList: list }
-    console.log(taskList)
     fs.writeFileSync(__dirname + '/db.json', JSON.stringify(taskList));   
 }
 

@@ -1,4 +1,5 @@
 const db = require("../db/db-interface");
+const { validateTask } = require("../utils/task")
 
 const resolvers = {
 
@@ -13,6 +14,12 @@ const resolvers = {
     },
 
     Mutation: {
+        updateTaskList: (_, { taskList }) => {
+            console.log(taskList)
+            taskList.list.forEach( task => validateTask(task) );
+            db.storeTaskList(taskList.list);
+            return db.getTaskList();
+        },
         addTask: (_, { task }) => {
             db.addTask(task); 
             return db.getTaskList();

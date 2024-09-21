@@ -1,19 +1,22 @@
 
-const createTask = ({ isComplete, priorityLv, title, description, date }) => {
+const createTask = ({  title, description,  taskOrder, isComplete, priorityLv, date }) => {
     return { 
-        isComplete,
-        priorityLv,
         title,
         description,
+        priorityLv,
+        taskOrder,
+        isComplete,
         date
     };
 }
 
-const isTask = (task) =>  { 
+const isTask = (task) =>  {
+
     if (
         task.title && 
         task.description && 
         task.priorityLv && 
+        task.taskOrder >= 0 && 
         typeof task.isComplete === "boolean" && 
         task.date
     ) {

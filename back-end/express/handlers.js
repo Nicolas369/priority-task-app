@@ -1,6 +1,6 @@
 const db = require("../db/db-interface");
+const { validateTask } = require("../utils/task")
 const { createTask } = require("../utils/task");
-
 
 // [ ] handle errors 
 
@@ -11,6 +11,13 @@ const sendTaskList = (res) => {
 }
 
 const getTaskList = (req, res) => sendTaskList(res);
+
+const updateTaskList = (req, res) => {
+    const taskList = req.body.list;
+    taskList.forEach( task => validateTask(task) );
+    db.storeTaskList(taskList);
+    sendTaskList(res);
+}
 
 const addTask = (req, res) => {
     const task = createTask(req.body.task);
@@ -30,7 +37,8 @@ const deleteTask = (req, res) => {
 
 module.exports = {
     deleteTask,
-    updateTask,
+    getTaskList,
+    updateTaskList,
     addTask,
-    getTaskList
+    updateTask
 }
