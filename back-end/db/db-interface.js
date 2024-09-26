@@ -9,6 +9,7 @@ const { validateTask } = require("../utils/task");
  *   | tile         | string     |
  *   | description  | string     |
  *   | priorityLv   | number     |
+ *   | taskOrder    | number     |
  *   | isComplete   | boolean    |
  *   | date         | Date       |
  *   | id (key)     | number     |
@@ -24,14 +25,12 @@ function getTaskList() {
 function storeTaskList(list) {
     list = list.sort((a, b) => a.id - b.id);
     const taskList = { taskList: list }
-    console.log(taskList)
     fs.writeFileSync(__dirname + '/db.json', JSON.stringify(taskList));   
 }
 
 function getIndividualTask(taskId) {
     const taskList = getTaskList();
-    const individualTask = taskList.find(task => task.id === taskId);
-    console.log(individualTask);
+    const individualTask = taskList.find(task => task.id == taskId);
     return individualTask;
 }
 
@@ -46,10 +45,11 @@ function addTask(task) {
 }
 
 function deleteTask(taskId) {
+    taskId = typeof taskId === `string` ? parseInt(taskId) : taskId;
     const taskList = getTaskList();
-    const taskToRemove = taskList.find(task => task.id === taskId);
+    const taskToRemove = taskList.find(task => task.id == taskId);
     validateTask(taskToRemove);
-    console.log(taskToRemove, taskList.indexOf(taskToRemove));
+    console.log(taskToRemove)
     taskList.splice(taskList.indexOf(taskToRemove), 1);
     storeTaskList(taskList);
     return true;
@@ -58,10 +58,10 @@ function deleteTask(taskId) {
 function updateTask(task) {
     validateTask(task);
     const taskList = getTaskList();
-    const taskForUpdate = taskList.find(t => t.id === task.id);
+    const taskForUpdate = taskList.find(t => t.id == task.id);
+    console.log(taskForUpdate);
     taskList[taskList.indexOf(taskForUpdate)] = task;
     storeTaskList(taskList);
-    console.log(taskList)
     return true;
 }
 
