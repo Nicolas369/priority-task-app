@@ -15,7 +15,6 @@ const resolvers = {
 
     Mutation: {
         updateTaskList: (_, { taskList }) => {
-            console.log(taskList)
             taskList.list.forEach( task => validateTask(task) );
             db.storeTaskList(taskList.list);
             return db.getTaskList();
@@ -27,7 +26,8 @@ const resolvers = {
         updateTask: (_, { task }) => { 
             task.id = parseInt(task.id);
             db.updateTask(task);
-            return db.getTaskList();
+            const listToSend = db.getTaskList();
+            return listToSend;
         },
         deleteTask: (_, { taskId }) => {
             taskId = parseInt(taskId);

@@ -31,7 +31,7 @@ const updateTask = (req, res) => {
 };
 
 const deleteTask = (req, res) => {
-    db.deleteTask(parseInt(req.query.id));
+    db.deleteTask(req.query.id);
     sendTaskList(res);
 };
 
