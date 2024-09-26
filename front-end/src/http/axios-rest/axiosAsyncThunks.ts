@@ -19,7 +19,6 @@ const updateTasksListOrder = createAsyncThunk(
   }
 );
 
-
 const addTask = createAsyncThunk(
   "TaskListSlice/Axios/addTask",
   async (task: Task) => {
@@ -28,10 +27,10 @@ const addTask = createAsyncThunk(
   }
 );
 
-const deletTask = createAsyncThunk(
-  "TaskListSlice/Axios/deletTask",
-  async (taskID: string) => {
-    const params: { id: number } = { id: parseInt(taskID) } 
+const deleteTask = createAsyncThunk(
+  "TaskListSlice/Axios/deleteTask",
+  async (taskID: string | number) => {
+    const params: { id: number } = { id: typeof taskID === "string" ? parseInt(taskID) : taskID } 
     const { data }: AxiosResponse = await axiosClient.delete<Task[]>("/delete-task", { params });
     return data;
   }
@@ -41,11 +40,12 @@ const updateTask = createAsyncThunk(
   "TaskListSlice/Axios/updateTask",
   async (task: Task) => {
     task = { ...task, id: typeof task.id === `string` ? parseInt(task.id) : task.id }
-    const { data }: AxiosResponse = await axiosClient.post<Task[]>("/update-task", { task });
+    const { data }: AxiosResponse = await axiosClient.put<Task[]>("/update-task", { task });
     return data;
   }
 );
 
 export const tasksREST_GET = { fetchTasksList }; 
-export const tasksREST_POST = { addTask, updateTask, updateTasksListOrder };
-export const tasksREST_DELETE = { deletTask };
+export const tasksREST_POST = { addTask, updateTasksListOrder };
+export const tasksREST_PUT = { updateTask };
+export const tasksREST_DELETE = { deleteTask };

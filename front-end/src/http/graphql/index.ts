@@ -1,15 +1,18 @@
-import { ApolloClient, InMemoryCache, gql, useMutation, useQuery } from '@apollo/client';
+import { ApolloClient, DefaultOptions, InMemoryCache } from '@apollo/client';
+
+const options: DefaultOptions = {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+    },
+}
 
 export const apolloClient = new ApolloClient({
     uri: 'http://localhost:7000/graphql',
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+        addTypename: false
+    }),
+    defaultOptions: options,
 });
-
-// [ ] how to disabled cache 
-// [x] add
-
-
-// how continue ? 
-// continue integrating the logic of http-redux and then me rge those tow axios and apollo 
-// in a custome hooks and a logic for switch them
-

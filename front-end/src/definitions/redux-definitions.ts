@@ -8,6 +8,12 @@ export type Task = {
     date: Date;
 }
 
-export type TaskList = {
-    list: Task[];
+export type InitialState = {
+    taskList: Task[];
+    useAxios: boolean;
+    selectedTask: number | string | null;
 }
+
+export type PartialType<T> = {
+    [P in keyof T]?: T[P];
+};

@@ -3,6 +3,7 @@ import { apolloClient } from "./index";
 import { graphqlMutations } from "./mutations";
 import { Task } from "../../definitions/redux-definitions";
 import { graphqlQueries } from "./queries";
+import { assembleTask } from "../../utils/taskOperations";
 
 export const getTasksList = createAsyncThunk(
     "TaskListSlice/GraphQl/getTaskList",
@@ -18,8 +19,9 @@ export const getTasksList = createAsyncThunk(
 export const updateTaskLIstOrder = createAsyncThunk(
     "TaskListSlice/GraphQl/updateTaskLIstOrder",
     async (list: Task[]) => {
-        const taskList = { list };
-        list.forEach((task: any) => {delete task.__typename;});
+        const taskList = { 
+            list: list.map((task: Task) => assembleTask(task))
+        };
         const { data } = await apolloClient.mutate({
             mutation: graphqlMutations.updateTaskLIstOrder,
             variables: { taskList }
@@ -31,6 +33,7 @@ export const updateTaskLIstOrder = createAsyncThunk(
 export const addTask = createAsyncThunk(
     "TaskListSlice/GraphQl/addTask",
     async (task: Task) => {
+        task = assembleTask(task)
         const { data } = await apolloClient.mutate({
             mutation: graphqlMutations.addTask,
             variables: { task }
@@ -44,7 +47,7 @@ export const updateTask = createAsyncThunk(
     async (task: Task) => {
         const { data } = await apolloClient.mutate({
             mutation: graphqlMutations.updateTask,
-            variables: { task }
+            variables: { task: assembleTask(task) }
         });
         return data.updateTask;
     }
@@ -52,7 +55,8 @@ export const updateTask = createAsyncThunk(
 
 export const deleteTask = createAsyncThunk(
     "TaskListSlice/GraphQl/deleteTask",
-    async (taskId: number) => {
+    async (taskId: number | string) => {
+        taskId = typeof  taskId === "string" ? taskId: taskId.toString();
         const { data } = await apolloClient.mutate({
             mutation: graphqlMutations.deleteTask,
             variables: { taskId }

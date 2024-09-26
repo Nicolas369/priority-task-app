@@ -1,16 +1,8 @@
-import LongCardItem from "../../components/long-card-item";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
+import { LongCardTaskItemComponent } from "../../components/long-card-item";
 import { v4 as uuidv4 } from 'uuid';
 import { Task } from "../../definitions/redux-definitions";
-import { taskGraphQL_Mutation, taskGraphQL_Query } from "../../http/graphql/graphqlAsyncThunks";
-import { AppDispatch } from "../../store";
-import { tasksREST_POST } from "../../http/axios-rest/axiosAsyncThunks";
-import { setTasksList } from "../../store/slices/task-slice";
-
-type Styles = {
-  main: any;
-}
+import { Styles, TaskListSectionInterface } from "../../definitions/pages-definitions";
 
 const styles: Styles = {
   main: {
@@ -27,21 +19,21 @@ const styles: Styles = {
   },
 };
 
-const TaskPage = ({ tasksList }: { tasksList: Task[] }) => {
+export const TaskListSection = ({ tasksList, emitTaskList }: TaskListSectionInterface) => {
   const sortedTasksList = [...tasksList].sort((a, b) => a.taskOrder - b.taskOrder );
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
 
     const items = Array.from(sortedTasksList);
+    const priorityLvRange = items[result.destination.index]
+      ? items[result.destination.index].priorityLv
+      : items[items.length -1].priorityLv;
     const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    const orderList: Task[] = items.map((task, i) =>{ return({...task, taskOrder: i+1 })});
+    items.splice(result.destination.index, 0, {...reorderedItem, priorityLv: priorityLvRange});
+    const orderList: Task[] = items.map((task, i) => ({...task, taskOrder: i+1 }));
 
-    dispatch(taskGraphQL_Mutation.updateTaskLIstOrder( orderList ));
-    dispatch(setTasksList( orderList ));
+    emitTaskList(orderList);
   };
 
   return (
@@ -51,22 +43,19 @@ const TaskPage = ({ tasksList }: { tasksList: Task[] }) => {
         <Droppable droppableId={uuidv4()}>
           {(provided) => (
             <div style={styles.main} ref={provided.innerRef} {...provided.droppableProps}>
-
               {sortedTasksList.map((task, i) => (
-                
                 <Draggable
                   key={uuidv4()}
                   draggableId={`${task.id}`}
                   index={i}
                 >
-                
                   {(provided) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <LongCardItem item={`${task.taskOrder}: >  ${task.title}`} />
+                      <LongCardTaskItemComponent task={task} />
                     </div>
                   )}
                 </Draggable>
@@ -79,4 +68,3 @@ const TaskPage = ({ tasksList }: { tasksList: Task[] }) => {
   );
 };
 
-export default TaskPage;
