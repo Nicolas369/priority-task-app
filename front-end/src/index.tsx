@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import { Provider } from 'react-redux'
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './http/graphql';
+import { ThemeProvider } from '@mui/material/styles';
+import { priorityTaskAppTheme } from './theme';
 import App from './App';
+import "./index.css"
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +18,9 @@ root.render(
   // <React.StrictMode>
   <ApolloProvider client={apolloClient}>
       <Provider store={store}>
-        <App />
+        <ThemeProvider theme={priorityTaskAppTheme}>
+          <App />
+        </ThemeProvider>
       </Provider>
   </ApolloProvider>
   // </React.StrictMode>

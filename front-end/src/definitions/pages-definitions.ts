@@ -1,5 +1,6 @@
 import { CSSProperties, ReactElement } from "react";
 import { Task } from "./redux-definitions";
+import { ColorResponsibilityType } from "../theme/style";
 
 export type Styles = {
   [key: string]: CSSProperties;
@@ -9,6 +10,8 @@ export interface ActionButtonInterface {
   action: () => void;
   description: string;
   disabled?: boolean;
+  variant?: "contained" | "text" | "outlined";
+  responsibility?: ColorResponsibilityType;
 }
 
 export interface DisplayTaskInterface {

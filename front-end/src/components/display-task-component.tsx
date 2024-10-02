@@ -39,7 +39,7 @@ const styles: Styles = {
       backgroundColor: "transparent",
       border: "solid 1px #ffffff",
       boxSizing: "border-box",
-      color: "#ffffff",
+      // color: "#ffffff",
       borderRadius: "6px",
       padding: "5px",
       margin: "0px"

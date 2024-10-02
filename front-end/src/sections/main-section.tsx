@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { TaskListSection } from "./tasks-list/tasks-list";
 import { useSelectLastOrder, useSelectSelectedTask, useTaskListSelector } from "../store/selectors/tasks-selector";
 import { Task } from "../definitions/redux-definitions";
 import { useHttp } from "../hooks/useHttp";
@@ -8,23 +7,26 @@ import { TaskEntryComponent } from "./task-entry/task-entry";
 import { ActionButtonComponent } from "../components/action-button";
 import { useLocalState } from "../hooks/useLocalState";
 import { Styles } from "../definitions/pages-definitions";
+import { Header } from "./header/Header";
+import { Box } from "@mui/material";
+import { TaskListSection } from "./tasks-list/tasks-list";
+import { displayCenter, MAX_APPLICATION_WIDTH } from "../theme/style";
 
 const styles: Styles = {
   main: {
-    width: "100vw",
+    width: "100%",
     height: "100vh",
     margin: "0px",
     padding: "0px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "blueviolet",
-    color: "#ffffff"
+    // color: `text.default`,
+    ...displayCenter,
+  },
+  containerApp: {
+    ...MAX_APPLICATION_WIDTH,
+    ...displayCenter,
   },
   taskList: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    ...displayCenter,
     flexDirection: "column",
   },
 }
@@ -93,34 +95,41 @@ export const TaskAppMainSection = () => {
   const openModal = (!!taskSelected || isAddTask);
 
   return (
-    <div style={styles.main}>
-        { openModal && 
-          <ModalSection
-            displayComponent={
-              <TaskEntryComponent 
-                taskSelected={taskSelected}
-                lastTaskOrder={lastTaskOrder}
-                onSubmit={onTaskEntrySubmit} 
-                isUpdate={isUpdateTask} 
-                isAdd={isAddTask} 
-              />}
-            secondaryActions={secondaryActions}
-          />
-        }
-      <div style={styles.taskList}>
-        <p>currently using: {isAxios ? "Axios" : "GraphQl"}</p>
-        <div>
-          <ActionButtonComponent 
-            action={toggleHttpLibrary} 
-            description={(`change to ${!isAxios ? "Axios" : "GraphQl"}`)}
-          />
-          <ActionButtonComponent 
-            action={() => setIsAddTask(true)}
-            description={"Add Task "}
-          />
-        </div>
-        <TaskListSection tasksList={tasksListRedux} emitTaskList={updateTaskListOrder}/>
-      </div>
-    </div>
+    <>
+      <Box sx={styles.main}>
+        <Header />
+
+          <Box sx={styles.containerApp} >
+            <div style={styles.taskList}>
+              <p>currently using: {isAxios ? "Axios" : "GraphQl"}</p>
+              <div>
+                <ActionButtonComponent 
+                  action={toggleHttpLibrary} 
+                  description={(`change to ${!isAxios ? "Axios" : "GraphQl"}`)}
+                />
+                <ActionButtonComponent 
+                  action={() => setIsAddTask(true)}
+                  description={"Add Task "}
+                />
+              </div>
+              <TaskListSection tasksList={tasksListRedux} emitTaskList={updateTaskListOrder}/>
+            </div>
+          </Box>
+
+          { openModal && 
+            <ModalSection
+              displayComponent={
+                <TaskEntryComponent 
+                  taskSelected={taskSelected}
+                  lastTaskOrder={lastTaskOrder}
+                  onSubmit={onTaskEntrySubmit} 
+                  isUpdate={isUpdateTask} 
+                  isAdd={isAddTask} 
+                />}
+              secondaryActions={secondaryActions}
+            />
+          }
+      </Box>
+    </>
   );
 }
