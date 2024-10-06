@@ -10,7 +10,7 @@ const styles: Styles = {
     padding: "10px",
     margin: "10px",
     display: "flex",
-    height: "500px",
+    height: "400px",
     flexDirection: "column",
     justifyContent: "start",
     alignItems: "center",

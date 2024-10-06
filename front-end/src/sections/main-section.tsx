@@ -11,15 +11,22 @@ import { Header } from "./header/Header";
 import { Box } from "@mui/material";
 import { TaskListSection } from "./tasks-list/tasks-list";
 import { displayCenter, MAX_APPLICATION_WIDTH } from "../theme/style";
+import { useColorUser } from "../store/selectors/themeSelector";
+import { AddTaskPanel } from "./add-task-panel/add-task-pannel";
 
 const styles: Styles = {
   main: {
     width: "100%",
     height: "100vh",
     margin: "0px",
-    padding: "0px",
-    // color: `text.default`,
+  },
+  contentApp: {
+    color: `text.default`,
+    padding: "25px",
+    boxSizing: "border-box",
     ...displayCenter,
+    justifyContent: "start",
+
   },
   containerApp: {
     ...MAX_APPLICATION_WIDTH,
@@ -98,37 +105,39 @@ export const TaskAppMainSection = () => {
     <>
       <Box sx={styles.main}>
         <Header />
-
-          <Box sx={styles.containerApp} >
-            <div style={styles.taskList}>
-              <p>currently using: {isAxios ? "Axios" : "GraphQl"}</p>
-              <div>
-                <ActionButtonComponent 
-                  action={toggleHttpLibrary} 
-                  description={(`change to ${!isAxios ? "Axios" : "GraphQl"}`)}
-                />
-                <ActionButtonComponent 
-                  action={() => setIsAddTask(true)}
-                  description={"Add Task "}
-                />
+        <Box sx={styles.contentApp}>
+          <AddTaskPanel /> 
+            {/* <Box sx={styles.containerApp} >
+              <div style={styles.taskList}>
+                <p>currently using: {isAxios ? "Axios" : "GraphQl"}</p>
+                <div>
+                  <ActionButtonComponent 
+                    action={toggleHttpLibrary} 
+                    description={(`change to ${!isAxios ? "Axios" : "GraphQl"}`)}
+                  />
+                  <ActionButtonComponent 
+                    action={() => setIsAddTask(true)}
+                    description={"Add Task "}
+                  />
+                </div>
+                <TaskListSection tasksList={tasksListRedux} emitTaskList={updateTaskListOrder}/>
               </div>
-              <TaskListSection tasksList={tasksListRedux} emitTaskList={updateTaskListOrder}/>
-            </div>
-          </Box>
+            </Box> */}
 
-          { openModal && 
-            <ModalSection
-              displayComponent={
-                <TaskEntryComponent 
-                  taskSelected={taskSelected}
-                  lastTaskOrder={lastTaskOrder}
-                  onSubmit={onTaskEntrySubmit} 
-                  isUpdate={isUpdateTask} 
-                  isAdd={isAddTask} 
-                />}
-              secondaryActions={secondaryActions}
-            />
-          }
+            {/* { openModal && 
+              <ModalSection
+                displayComponent={
+                  <TaskEntryComponent 
+                    taskSelected={taskSelected}
+                    lastTaskOrder={lastTaskOrder}
+                    onSubmit={onTaskEntrySubmit} 
+                    isUpdate={isUpdateTask} 
+                    isAdd={isAddTask} 
+                  />}
+                secondaryActions={secondaryActions}
+              />
+            } */}
+        </Box>
       </Box>
     </>
   );

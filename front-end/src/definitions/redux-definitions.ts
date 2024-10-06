@@ -8,10 +8,20 @@ export type Task = {
     date: Date;
 }
 
-export type InitialState = {
+export type InitialTaskState = {
     taskList: Task[];
     useAxios: boolean;
     selectedTask: number | string | null;
+}
+
+export type InitialThemeState = {
+    colors: {
+        USER: any;
+        ACTION: any;
+        HIGHLIGHT: any;
+        DEFAULT: any;
+        BACKGROUND: any;
+    }
 }
 
 export type PartialType<T> = {

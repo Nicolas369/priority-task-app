@@ -2,7 +2,8 @@ import { Button } from "@mui/material";
 import {
   ActionButtonInterface,
 } from "../definitions/pages-definitions";
-import { ColorResponsibility, COLORS } from "../theme/style";
+import { ColorResponsibility } from "../theme/style";
+import { useColorByResponsibility } from "../store/selectors/themeSelector";
 
 export const ActionButtonComponent = ({
   action,
@@ -12,9 +13,10 @@ export const ActionButtonComponent = ({
   responsibility = ColorResponsibility.DEFAULT
 }: ActionButtonInterface) => {
   const btnAction = () => !disabled && action();
+  const btnColor = useColorByResponsibility(responsibility);
 
   const btnStyle = {
-    bgcolor: COLORS[responsibility].dark,
+    bgcolor: btnColor.dark,
     margin: "5px",
     fontSize: ".75rem",
   }

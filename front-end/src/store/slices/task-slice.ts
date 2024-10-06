@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import { Task, InitialState } from '../../definitions/redux-definitions';
+import { Task, InitialTaskState } from '../../definitions/redux-definitions';
 import { tasksREST_DELETE, tasksREST_GET, tasksREST_POST, tasksREST_PUT } from '../../http/axios-rest/axiosAsyncThunks';
 import { taskGraphQL_Mutation, taskGraphQL_Query } from '../../http/graphql/graphqlAsyncThunks';
 
-const initialState: InitialState = {
+const initialState: InitialTaskState = {
   taskList: [],
   useAxios: true,
   selectedTask: 0

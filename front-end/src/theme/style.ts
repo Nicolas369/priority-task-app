@@ -5,8 +5,8 @@ export type ColorResponsibilityType =
   | "USER"
   | "ACTION"
   | "HIGHLIGHT"
-  | "DEFAULT";
-  // | "BACKGROUND";
+  | "DEFAULT"
+  | "BACKGROUND";
 
 export enum ColorsVariants {
   primary = "primary",
@@ -22,41 +22,45 @@ export enum ColorResponsibility {
   BACKGROUND = "BACKGROUND",
 }
 
-export const COLORS = {
-  // [] set color changer;
-  USER: {
-    main: "tertiary.main",
-    dark: "tertiary.dark",
-    border: "tertiary.border",
-    background: "tertiary.background",
-  },
-  ACTION: {
-    main: "primary.main",
-    dark: "primary.dark",
-    border: "primary.border",
-    background: "primary.background",
-  },
-  HIGHLIGHT: {
-    main: "secondary.main",
-    dark: "secondary.dark",
-    border: "secondary.border",
-    background: "secondary.background",
-  },
-  DEFAULT: {
-    main: "primary.main",
-    dark: "primary.dark",
-    border: "primary.border",
-    background: "primary.background",
-  },
-  BACKGROUND: {
-    main: "background.main",
-    secondary: "background.secondary",
-    light: "background.light",
-    default: "background.default",
-  },
-};
+// export const COLORS = {
+//   // [] set color changer;
+//   USER: {
+//     main: "tertiary.main",
+//     dark: "tertiary.dark",
+//     border: "tertiary.border",
+//     background: "tertiary.background",
+//   },
+//   ACTION: {
+//     main: "primary.main",
+//     dark: "primary.dark",
+//     border: "primary.border",
+//     background: "primary.background",
+//   },
+//   HIGHLIGHT: {
+//     main: "secondary.main",
+//     dark: "secondary.dark",
+//     border: "secondary.border",
+//     background: "secondary.background",
+//   },
+//   DEFAULT: {
+//     main: "primary.main",
+//     dark: "primary.dark",
+//     border: "primary.border",
+//     background: "primary.background",
+//   },
+//   BACKGROUND: {
+//     main: "background.main",
+//     secondary: "background.secondary",
+//     light: "background.light",
+//     default: "background.default",
+//   },
+// };
 
-export const MAX_APPLICATION_WIDTH: CSSProperties = { maxWidth: "1280px", boxSizing: "border-box", overflow: "hidden"}
+export const MAX_APPLICATION_WIDTH: CSSProperties = { 
+  maxWidth: "1280px",
+  boxSizing: "border-box",
+  overflow: "hidden"
+}
 
 export const displayCenter = {
   display: "flex",
@@ -76,6 +80,6 @@ export const bgColor = (color: any) => ({
 });
 
 export const shadow = {
-  boxShadow: "rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px"
+  boxShadow: "rgba(0, 0, 0, 0.19) 0px 5px 10px, rgba(0, 0, 0, 0.23) 0px 3px 3px"
 };
 
