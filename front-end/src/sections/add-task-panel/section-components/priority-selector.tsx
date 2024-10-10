@@ -7,23 +7,24 @@ import { displayCenter } from "../../../theme/style";
 import { useState } from "react";
 import { AccordionComponent } from "../../../components/AccordionComponent";
 import { Box, Typography } from "@mui/material";
+import { TaskObservable } from "../../../utils/observable";
 
 // [ ] move to constant file
 const PRIORITIES = ["Non-Priority", "HIGH", "MEDIUM", "COMMON"];
 
 export const PrioritySelector = ({
+  clearInputObservable,
   responsibility,
   onChange,
 }: {
   responsibility: any;
   onChange: (value: string) => void;
+  clearInputObservable?: TaskObservable,
 }) => {
   const [value, setValue] = useState("");
   const [displayPriority, setDisplayPriority] = useState(false);
 
-
-  // [ ] make function constructor
-  const styles = {
+  const styles: any = {
     formControl: {
       width: "100%",
       fontSize: ".5rem",
@@ -51,7 +52,33 @@ export const PrioritySelector = ({
     colorLabelSelected: {
       color: responsibility.main,
     },
+    ComponentLabel: {
+      ...displayCenter,
+      color: responsibility.border,
+      fontWeight: 300
+    },
+    taskPriorityDisplayBackground: {
+      height: "50px",
+      width: "100%",
+      ...displayCenter,
+      backgroundColor: responsibility.background,
+      color: responsibility.border,
+    },
+    taskPriorityDisplayText:{
+        width: "100%",
+        fontSize: "1.5rem",
+        fontFamily: "monospace",
+        letterSpacing: "5px",
+        fontWeight: 100,
+        ...displayCenter,
+    }
   };
+
+  const clearValue = () => {
+    setValue("");
+  }
+
+  clearInputObservable?.subscribe(clearValue);
 
   const handleRadioChange = (e: any) => {
     onChange(e.target.value);
@@ -59,13 +86,9 @@ export const PrioritySelector = ({
   };
 
   const ComponentLabel = () => {
-    // [ ] move to style object
     return (
       <FormLabel
-        sx={{
-          ...displayCenter,
-          color: responsibility.border,
-        }}
+        sx={styles.ComponentLabel}
         id="demo-row-radio-buttons-group-label"
       >
         Task Priority
@@ -74,27 +97,9 @@ export const PrioritySelector = ({
   };
 
   const DisplayTaskPriority = () => {
-    // [ ] move to style object
     return (
-      <Box
-        sx={{
-          height: "75px",
-          width: "100%",
-          ...displayCenter,
-          backgroundColor: responsibility.background,
-          color: "#ffffff",
-        }}
-      >
-        <Typography
-          sx={{
-            width: "100%",
-            fontSize: "1.5rem",
-            fontFamily: "monospace",
-            letterSpacing: "5px",
-            fontWeight: 100,
-            ...displayCenter,
-          }}
-        >
+      <Box sx={styles.taskPriorityDisplayBackground} >
+        <Typography sx={styles.taskPriorityDisplayText} >
           {PRIORITIES[parseInt(value)]}
         </Typography>
       </Box>

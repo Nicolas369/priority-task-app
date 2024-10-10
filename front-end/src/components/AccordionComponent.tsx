@@ -1,16 +1,16 @@
 import { Box, Typography } from "@mui/material";
 import { appBorder, displayCenter } from "../theme/style";
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 const makeStyles = (responsibility: any) => ({
-  hoverMouseArea: { padding: "10px 0px" },
+  hoverMouseArea: { padding: "20px 0px" },
   accordionContainer: {
     width: "100%",
     ...displayCenter,
     flexDirection: "column",
     boxSizing: "border-box",
     ...appBorder(responsibility),
-    transition: `borderTop 0.3s 0s, paddingBottom 0.3 0s`,
+    transition: `borderTop 0.4s 0s, paddingBottom 0.4 0s, height 0.5s 0s`,
     position: "relative",
   },
   labelContainer: {
@@ -22,7 +22,7 @@ const makeStyles = (responsibility: any) => ({
     width: "100%",
   },
   headerTitle: {
-    transition: `transform 0.3s 0s, marginLeft 0.3s 0s`,
+    transition: `transform 0.1s linear 0s, marginLeft 0.2s 0s`,
     display: "flex",
     flexDirection: "row",
     flexWrap: "nowrap",
@@ -43,31 +43,31 @@ const makeStyles = (responsibility: any) => ({
     marginLeft: "0em",
   },
   headerBorderBefore: {
-    transition: `borderWidth 0.3s 0s`,
+    transition: `borderWidth 0.4s 0s`,
     borderTop: "1px solid",
     borderColor: responsibility.border,
     width: "1em",
     borderTopLeftRadius: "6px",
   },
   headerBorderAfter: {
-    transition: `borderWidth 0.3s 0s`,
+    transition: `borderWidth 0.4s 0s`,
     borderTop: " 1px solid",
     borderColor: responsibility.border,
     width: "1em",
     flexGrow: 2,
     borderTopRightRadius: "6px",
   },
-  accordionChildren: {
-    position: "relative",
+  accordionEffect: {
+    transition: "all 0.3s",
     overflow: "hidden",
     borderRadius: "6px",
-    transition: `height 0.4s 0s`,
     width: "100%",
   },
 });
 
-// [ ] make component interface 
+// [ ] make component interface
 // [ ] move this to definition folder
+// dev-note: old implementation in the 70% commit
 export const AccordionComponent = ({
   responsibility,
   children,
@@ -80,105 +80,59 @@ export const AccordionComponent = ({
   const childrenRef = useRef<HTMLElement | null>(null);
   const styles = makeStyles(responsibility);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     childrenRef.current && setContentHeight(childrenRef.current.offsetHeight);
-  }, [childrenRef.current?.offsetHeight, isUse]);
+  }, [childrenRef.current?.offsetHeight, isUse, inInput]);
 
   const handleMouseHover = (value: boolean) => {
     setInInput(value);
     onHover(value);
   };
 
-
-  const HoverMouseArea = ({ children }: any) => {
-    return (
-      <Box sx={styles.hoverMouseArea}
-        onMouseEnter={() => handleMouseHover(true)}
-        onMouseLeave={() => handleMouseHover(false)}
-      > { children } </Box>
-    )
-  }
-
-
-  const AccordionContainer = ({ children }: any) => {
-    return (
-      <Box sx={{
-          ...styles.accordionContainer,
-          ...(inInput || isUse
-            ? { borderTop: "none" }
-            : { overflow: "hidden" }
-          ),
-          paddingBottom: `${!inInput && !isUse ? 3 : 0}em`,
-        }}
-      > { children } </Box>
-    )
-  }
-
-  const AccordionLabel = () => {
-    return (
-      <Box sx={styles.labelContainer}>
-        <Box sx={{ ...((inInput || isUse) && styles.headerBorderBefore) }}></Box>
-        <Box sx={{ ...(inInput || isUse ? styles.transformTop : {}), ...styles.headerTitle, }} >
-          <Typography> {label} </Typography>
-        </Box>
-        <Box sx={{ ...((inInput || isUse) && styles.headerBorderAfter) }} ></Box>
-      </Box>
-    )
-  }
-
-  const Accordion = ({children}: any) => {
-    return (
-      <Box sx={{ ...styles.accordionChildren,
-        height: `${inInput || isUse ? contentHeight : 0}px`,
-      }}
-      > {children} </Box>
-    )
-  }
-
   return (
     <>
-      {/* <Box sx={styles.hoverMouseArea}
-        onMouseEnter={() => handleMouseHover(true)}
+      <Box
+        sx={{...styles.hoverMouseArea }}
+        onMouseEnter={function () {
+          handleMouseHover(true);
+        }}
         onMouseLeave={() => handleMouseHover(false)}
-      > */}
-      <HoverMouseArea>
-        {/* <Box sx={{
+      >
+        <Box
+          sx={{
             ...styles.accordionContainer,
             ...(inInput || isUse
               ? { borderTop: "none" }
               : { overflow: "hidden" }),
-            paddingBottom: `${!inInput && !isUse ? 3 : 0}em`,
           }}
-        > */}
-        <AccordionContainer>
-          {/* <Box sx={styles.labelContainer}>
-            <Box sx={{ ...((inInput || isUse) && styles.headerBorderBefore) }}></Box>
-
-            <Box sx={{
+        >
+          <Box sx={styles.labelContainer}>
+            <Box
+              sx={{ ...((inInput || isUse) && styles.headerBorderBefore) }}
+            ></Box>
+            <Box
+              sx={{
                 ...(inInput || isUse ? styles.transformTop : {}),
                 ...styles.headerTitle,
-              }} >
+              }}
+            >
               <Typography> {label} </Typography>
             </Box>
-
-            <Box sx={{ ...((inInput || isUse) && styles.headerBorderAfter) }} ></Box>
-          </Box> */}
-
-          <AccordionLabel />
-{/* 
-          <Box sx={{
-              ...styles.accordionChildren,
+            <Box
+              sx={{ ...((inInput || isUse) && styles.headerBorderAfter) }}
+            ></Box>
+          </Box>
+          <div
+            style={{
+              ...styles.accordionEffect,
               height: `${inInput || isUse ? contentHeight : 0}px`,
+              margin: `${inInput || isUse ? 0 : 1.5}em 0em`
             }}
-          > */}
-          <Accordion>
+          >
             <Box ref={childrenRef}> {children} </Box>
-          </Accordion>
-          {/* </Box> */}
-        </AccordionContainer>
-        {/* </Box> */}
-      </HoverMouseArea>
-      {/* </Box> */}
+          </div>
+        </Box>
+      </Box>
     </>
   );
 };

@@ -1,18 +1,29 @@
 import { TextField } from "@mui/material";
+import { TaskObservable } from "../utils/observable";
+import { useState } from "react";
 
 export const InputFieldComponent = ({
     inputId,
     label,
     onChange,
     isTextArea,
-  colorResponsibility,
+    colorResponsibility,
+    clearInputObservable,
 }: {
   inputId?: string;
   label: string;
   isTextArea?: boolean,
   colorResponsibility: any;
   onChange: (value: string) => void;
+  clearInputObservable?: TaskObservable
 }) => {
+
+  const [value, setValue] = useState("");
+
+  clearInputObservable?.subscribe(() => {
+    setValue("");
+  })
+
   const styles = {
     // [ ] make this with theme class creator
     // [ ] make font smaller
@@ -20,8 +31,8 @@ export const InputFieldComponent = ({
     main: {
       width: "100%",
       padding: "0px",
-      marginBottom: "5%",
       boxSizing: "border-box",
+      margin: "5px 0px",
       fontSize: ".5rem",
       "& label": {
         color: colorResponsibility.border,
@@ -51,10 +62,12 @@ export const InputFieldComponent = ({
 
   const handleChange = (e: any) => {
     onChange(e.target.value);
+    setValue(e.target.value);
   };
 
   return (
       <TextField
+        value={value}
         id={inputId ? inputId : Math.random().toString()}
         sx={styles.main}
         label={label}

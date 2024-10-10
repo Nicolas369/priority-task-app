@@ -1,21 +1,17 @@
-/**
- * NOTE: 
- *  This is a section is a large and important global-part of (what i am doing)
- *  the application. Think it as a section the most big part of the 
- *  component-pack 
- */
-
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useHttp } from "../../hooks/useHttp";
 import { useColorAction } from "../../store/selectors/themeSelector";
-import { InputFieldComponent } from "../../components/input-field-component";
 import { ContainerComponent } from "../../components/container-component";
 import { PrioritySelector } from "./section-components/priority-selector";
-import { Styles } from "../../definitions/pages-definitions";
 import { displayCenter } from "../../theme/style";
 import { SetTimeLineComponent } from "./section-components/set-time-line-component";
+import { EntryTaskDescriptionTitle } from "./section-components/entry-task-description-title";
+import { useState } from "react";
+import { Task } from "../../definitions/redux-definitions";
+import { thisIsTask } from "../../utils/taskOperations";
+import { TaskObservable } from "../../utils/observable";
 
-const styles: Styles = {
+const makeStyles = (color: any) => ({
     // [ ] set a right size for the panel 
     // note: make it responsive with the screen.
     panelSize: {
@@ -25,37 +21,81 @@ const styles: Styles = {
     },
     panelTitle: {
         marginBottom: "15px",
-        fontSize: "1.5em",
+        fontSize: "1em",
         width: "100%",
+        letterSpacing: "1px",
+        wordSpacing: "3px",
+        textTransform:"uppercase",
+        color: color.dark,
         ...displayCenter
     },
     panelInputs: {
         height:"100%", 
         overflowY: "scroll"
+    },
+    btnCreateTask: {
+        width:"100%",
+        backgroundColor: color.main,
+        marginTop: "10px",
+        marginBottom: "5px",
+        borderRadius: "6px"
     }
-}
+});
 
 export const AddTaskPanel = () => {
     const { addTask } = useHttp();
     const actionColor = useColorAction();
+    const styles = makeStyles(actionColor);
+    const [taskObject, setTaskObject] = useState<Partial<Task>>({});
+    const clearInputObservable = new TaskObservable();
+    clearInputObservable.subscribe(() => setTaskObject({}))
 
     const handleTaskTitleChange = (value: string) => {
-        console.log("taskTitle: ",value);
+        setTaskObject({
+            ...taskObject,
+            title: value
+        });
     }
     
-    const handleTaskDescriptionChange = (e:string) => {
-        console.log("taskDescription: ", e);
+    const handleTaskDescriptionChange = (description:string) => {
+        setTaskObject({
+            ...taskObject,
+            description: description
+        });
     }
     
     const handelTaskPriorityChange = (priority: string) => {
-        console.log("taskPriority: ",parseInt(priority));
+        setTaskObject({
+            ...taskObject,
+            priorityLv: parseInt(priority)
+        });
     }
 
     const handleTimeLIneSelection = (timeLine: any) => {
-        console.log("timeline: ", timeLine);
+        setTaskObject({
+            ...taskObject,
+            startDate: timeLine.startDay,
+            finishDate: timeLine.finishDay,
+        });
     }
+    
+    const sendTask = (newTask: Task) => {
+        addTask(newTask);
+        clearInputObservable.next();
+    } 
 
-    // [ ] make the task object 
+    const createTask = () => {
+        const newTask = {
+            ...taskObject,
+            priorityLv: taskObject.priorityLv ? taskObject.priorityLv : 3,
+            isComplete: false,
+            date: new Date(),
+        }
+
+        thisIsTask(newTask)
+        ? sendTask(newTask as Task)
+        : alert("please complete the Task"); // [ ] make handle message component
+    }
 
     return (
         <>
@@ -63,10 +103,14 @@ export const AddTaskPanel = () => {
                 <Box sx={styles.panelSize}>
                     <Box sx={styles.panelInputs}>
                         <Typography sx={styles.panelTitle}> Add Task Panel </Typography>
-                        <InputFieldComponent label="Task Title" onChange={handleTaskTitleChange} colorResponsibility={actionColor}/>
-                        <InputFieldComponent isTextArea label="Task Description" onChange={handleTaskDescriptionChange} colorResponsibility={actionColor}/> 
-                        <PrioritySelector onChange={handelTaskPriorityChange} responsibility={actionColor} />
-                        <SetTimeLineComponent colorResponsibility={actionColor} emitTimeLine={handleTimeLIneSelection}/>
+                        <EntryTaskDescriptionTitle clearInputObservable={clearInputObservable} onChangeTitle={handleTaskTitleChange} onChangeDescription={handleTaskDescriptionChange} responsibility={actionColor} />
+                        <PrioritySelector clearInputObservable={clearInputObservable} onChange={handelTaskPriorityChange} responsibility={actionColor} />
+                        <SetTimeLineComponent clearInputObservable={clearInputObservable} colorResponsibility={actionColor} emitTimeLine={handleTimeLIneSelection}/>
+                        <Button
+                            sx={styles.btnCreateTask}
+                            variant="contained" 
+                            onClick={createTask}
+                        > Create Task </Button>
                     </Box>
                 </Box>
             </ContainerComponent>

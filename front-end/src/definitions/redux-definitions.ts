@@ -6,6 +6,8 @@ export type Task = {
     isComplete: boolean;
     taskOrder: number;
     date: Date;
+    startDate?: Date;
+    finishDate?: Date;
 }
 
 export type InitialTaskState = {
