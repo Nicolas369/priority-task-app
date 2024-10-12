@@ -9,6 +9,8 @@ const typeDefs = gql`
         priorityLv: Int!
         isComplete: Boolean!
         taskOrder: Int!
+        # startDate
+        # startFinish
         date: Date!
         id: ID!
     }
@@ -19,7 +21,9 @@ const typeDefs = gql`
         priorityLv: Int!
         isComplete: Boolean!
         taskOrder: Int!
-        date: Date!
+        # startDate
+        # startFinish
+        date: Date! # remove
     }
 
     input InputUpdateTask {
@@ -29,6 +33,8 @@ const typeDefs = gql`
         isComplete: Boolean!
         taskOrder: Int!
         date: Date!
+        # startDate
+        # startFinish
         id: ID!
     }
 

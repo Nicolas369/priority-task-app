@@ -1,4 +1,5 @@
 const db = require("../db/db-interface");
+// [ ] add the right db 
 const { validateTask } = require("../utils/task")
 
 const resolvers = {

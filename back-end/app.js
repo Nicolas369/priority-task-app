@@ -4,7 +4,7 @@ const startGraphqlRouter = require("./graphql/router");
 const cors = require("cors");
 
 const app = express();
-app.use(cors()); // [ ] configure this right.
+app.use(cors());
 
 const startAPI = async () => {
     app.use(express.json());

@@ -1,44 +1,45 @@
 const db = require("../db/db-interface");
-const { validateTask } = require("../utils/task")
-const { createTask } = require("../utils/task");
+const { validateTask } = require("../utils/task");
+const { buildTaskForSQLInsertion, buildTaskForSQLUpdate } = require("../utils/task");
 
-// [ ] handle errors 
 
-const sendTaskList = (res) => {
-    const tasks = db.getTaskList();
+const sendTaskList = async (res) => {
+    const tasks = await db.getTaskList();
     const data = JSON.stringify(tasks);
     res.send(data);
 }
 
-const getTaskList = (req, res) => sendTaskList(res);
+const getTaskList = (_, res) => sendTaskList(res);
 
-const updateTaskList = (req, res) => {
+const updateTaskListIndexOrder = async (req, res) => {
     const taskList = req.body.list;
     taskList.forEach( task => validateTask(task) );
-    db.storeTaskList(taskList);
+    console.log(taskList);
+    await db.updateListTaskIndex(taskList);
     sendTaskList(res);
 }
 
-const addTask = (req, res) => {
-    const task = createTask(req.body.task);
-    db.addTask(task);
+const addTask = async (req, res) => {
+    const newTask = buildTaskForSQLInsertion(req.body.task);
+    await db.addNewTask([...newTask])
     sendTaskList(res);
 };
 
-const updateTask = (req, res) => {
-    db.updateTask(req.body.task);
+const updateTask = async (req, res) => {
+    const taskForUpdate = buildTaskForSQLUpdate(req.body.task);
+    await db.updateTask(taskForUpdate);
     sendTaskList(res);
 };
 
-const deleteTask = (req, res) => {
-    db.deleteTask(req.query.id);
+const deleteTask = async (req, res) => {
+    await db.deleteTask(req.query.id);
     sendTaskList(res);
 };
 
 module.exports = {
     deleteTask,
     getTaskList,
-    updateTaskList,
+    updateTaskListIndexOrder,
     addTask,
     updateTask
 }
