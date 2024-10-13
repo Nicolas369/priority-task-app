@@ -1,11 +1,11 @@
 const db = require("../db/db-interface");
-const { validateTask } = require("../utils/task");
-const { buildTaskForSQLInsertion, buildTaskForSQLUpdate } = require("../utils/task");
+const { validateTask, buildTaskForSQLInsertion, buildTaskForSQLUpdate } = require("../utils/task");
 
 
 const sendTaskList = async (res) => {
     const tasks = await db.getTaskList();
-    const data = JSON.stringify(tasks);
+    const tasksList = tasks.map( task => buildTaskForSend(task));
+    const data = JSON.stringify(tasksList);
     res.send(data);
 }
 
@@ -21,7 +21,7 @@ const updateTaskListIndexOrder = async (req, res) => {
 
 const addTask = async (req, res) => {
     const newTask = buildTaskForSQLInsertion(req.body.task);
-    await db.addNewTask([...newTask])
+    await db.addNewTask([...newTask]);
     sendTaskList(res);
 };
 

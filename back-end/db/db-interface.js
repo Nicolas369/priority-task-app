@@ -109,7 +109,7 @@ const getTaskList = async () => {
 
 
 /**
- *  @param { Array } task 
+ *  @param { Array } tasks - Array of task
  *  @description UPDATE all index of the past task Array following the index position of array 
  */
 const updateListTaskIndex = async (tasks) => {
@@ -117,7 +117,9 @@ const updateListTaskIndex = async (tasks) => {
 
     for (let index = 0; index < tasks.length; index++ ) {
         let task = tasks[index];
-
+        
+        console.log(tasks[index])
+        
         await queryWriteDB(
             db, 
             SQL.update_task_index_in_task_list_table,

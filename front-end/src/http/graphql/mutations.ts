@@ -5,9 +5,11 @@ const updateTaskLIstOrder = gql`
     updateTaskList(taskList: $taskList) {
       title
       description
-      taskOrder
-      isComplete
       priorityLv
+      isComplete
+      startDate
+      finishDate
+      index
       date
       id
     }
@@ -17,11 +19,13 @@ const updateTaskLIstOrder = gql`
 const addTask = gql`
   mutation($task: InputAddTask!) {
     addTask(task: $task) {
+      title
       description
       priorityLv
       isComplete
-      taskOrder
-      title
+      startDate
+      finishDate
+      index
       date
       id
     }
@@ -31,11 +35,13 @@ const addTask = gql`
 const updateTask = gql`
   mutation($task: InputUpdateTask!) {
     updateTask(task: $task) {
-      description
-      isComplete
-      priorityLv
-      taskOrder
       title
+      description
+      priorityLv
+      isComplete
+      startDate
+      finishDate
+      index
       date
       id
     }
@@ -45,11 +51,13 @@ const updateTask = gql`
 const deleteTask = gql`
   mutation($taskId: ID) {
     deleteTask(taskId: $taskId) {
-      description
-      isComplete
-      priorityLv
-      taskOrder
       title
+      description
+      priorityLv
+      isComplete
+      startDate
+      finishDate
+      index
       date
       id
     }

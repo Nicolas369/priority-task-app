@@ -1,18 +1,3 @@
-// [ ] check which i use and which i no longer use;
-
-const createTask = ({  title, description,  taskOrder, isComplete, priorityLv, startDate, finishDate, date }) => {
-    return { 
-        title,
-        description,
-        priorityLv,
-        taskOrder,
-        isComplete,
-        startDate,
-        finishDate,
-        date
-    };
-}
-
 const buildTaskForSQLInsertion = (task) => {
     return [
         task.title,
@@ -36,6 +21,19 @@ const buildTaskForSQLUpdate = (task) => {
     ]
 }
 
+const buildTaskForSend = (task) => {
+    return {
+        title: task.task_title,
+        description: task.task_description,
+        priorityLv: task.task_priority_lv,
+        isComplete: task.task_is_complete,
+        index: task.task_index,
+        startDate: task.task_start_date,
+        finishDate: task.task_finish_date,
+        date: task.task_date,
+        id: task.task_id
+    }
+}
 
 const isTask = (task) =>  {
 
@@ -66,7 +64,7 @@ const validateTask = (task) => {
 module.exports = {
     buildTaskForSQLUpdate,
     buildTaskForSQLInsertion,
-    createTask,
+    buildTaskForSend,
     validateTask,
     isTask
 }

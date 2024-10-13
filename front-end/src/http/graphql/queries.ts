@@ -4,12 +4,14 @@ const getTaskList = gql`
   query {
     getTasksList {
       title
-      id
       description
-      date
-      taskOrder
       priorityLv
       isComplete
+      startDate
+      finishDate
+      index
+      date
+      id
     }
   }
 `;

@@ -1,39 +1,42 @@
 const db = require("../db/db-interface");
-// [ ] add the right db 
-const { validateTask } = require("../utils/task")
+const { validateTask, buildTaskForSQLInsertion, buildTaskForSQLUpdate, buildTaskForSend } = require("../utils/task");
+
+
+const sendTaskList = async () => {
+    const tasks = await db.getTaskList();
+    return tasks.map( task => buildTaskForSend(task));
+}
 
 const resolvers = {
 
     Query: {
-        getTasksList: () => {
-            return db.getTaskList();
-        },
-        getTask: (_, { taskId }) => {
-            taskId = parseInt(taskId); 
-            return db.getIndividualTask(taskId);
-        },
+        getTasksList: async () => {
+            return await sendTaskList();
+        }
     },
 
     Mutation: {
-        updateTaskList: (_, { taskList }) => {
+        updateTaskList: async (_, { taskList }) => {
             taskList.list.forEach( task => validateTask(task) );
-            db.storeTaskList(taskList.list);
-            return db.getTaskList();
+            await db.updateListTaskIndex(taskList.list);
+            return await sendTaskList();
         },
-        addTask: (_, { task }) => {
-            db.addTask(task); 
-            return db.getTaskList();
+        addTask: async (_, { task }) => {
+            const newTask = buildTaskForSQLInsertion(task);
+            await db.addNewTask([...newTask]);
+            return await sendTaskList();
         },
-        updateTask: (_, { task }) => { 
+        updateTask: async (_, { task }) => { 
             task.id = parseInt(task.id);
-            db.updateTask(task);
-            const listToSend = db.getTaskList();
-            return listToSend;
+            const taskForUpdate = buildTaskForSQLUpdate(task);
+            await db.updateTask(taskForUpdate);
+            return await sendTaskList();
         },
-        deleteTask: (_, { taskId }) => {
+        deleteTask: async (_, { taskId }) => {
             taskId = parseInt(taskId);
-            db.deleteTask(taskId);
-            return db.getTaskList();
+            console.log(taskId);
+            await db.deleteTask(taskId);
+            return await sendTaskList();
         }
     }
 }
