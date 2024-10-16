@@ -75,11 +75,10 @@ export const useTaskOrder = () => {
         } else {
             week[BACKLOG].tasks.push(task);
         }
-        console.log(week);
+
     });
 
     const orderWeek = () => {
-
 
         const orderWeek = [];
         let d = dayjs().day();
