@@ -43,6 +43,7 @@ export const TaskListSection = ({ tasksList, emitTaskList }: TaskListSectionInte
         <Droppable droppableId={uuidv4()}>
           {(provided) => (
             <div style={styles.main} ref={provided.innerRef} {...provided.droppableProps}>
+
               {sortedTasksList.map((task, i) => (
                 <Draggable
                   key={uuidv4()}
@@ -60,6 +61,9 @@ export const TaskListSection = ({ tasksList, emitTaskList }: TaskListSectionInte
                   )}
                 </Draggable>
               ))}
+              
+              {provided.placeholder} {/* Placeholder for spacing */}
+
             </div>
           )}
         </Droppable>

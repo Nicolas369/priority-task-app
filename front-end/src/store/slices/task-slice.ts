@@ -40,6 +40,7 @@ export const taskSlice = createSlice({
         console.error(action.error.message); // [ ] handle error
       })
       .addCase(tasksREST_POST.addTask.fulfilled, (state, action) => {
+        console.log(action.payload);
         state.taskList = action.payload;
       })
       .addCase(tasksREST_POST.addTask.rejected, (state, action) => {

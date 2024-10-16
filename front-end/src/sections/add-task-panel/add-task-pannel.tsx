@@ -15,30 +15,33 @@ const makeStyles = (color: any) => ({
     // [ ] set a right size for the panel 
     // note: make it responsive with the screen.
     panelSize: {
-        height: "515px",
-        width: "325px",
+        height: "100%",
+        width: "345px",
+        marginRight: "25px",
         boxSizing: "border-box",
     },
     panelTitle: {
-        marginBottom: "15px",
-        fontSize: "1em",
         width: "100%",
-        letterSpacing: "1px",
-        wordSpacing: "3px",
-        textTransform:"uppercase",
+        fontSize: "1em",
         color: color.dark,
+        wordSpacing: "3px",
+        letterSpacing: "1px",
+        marginBottom: "15px",
+        boxSizing: "border-box",
+        textTransform:"uppercase",
         ...displayCenter
     },
     panelInputs: {
-        height:"100%", 
-        overflowY: "scroll"
+        height:"100%",
+        overflowY: "scroll",
     },
     btnCreateTask: {
         width:"100%",
+        boxSizing: "border-box",
         backgroundColor: color.main,
         marginTop: "10px",
         marginBottom: "5px",
-        borderRadius: "6px"
+        borderRadius: "6px",
     }
 });
 
@@ -99,8 +102,8 @@ export const AddTaskPanel = () => {
 
     return (
         <>
-            <ContainerComponent responsibility={actionColor}>
-                <Box sx={styles.panelSize}>
+            <Box sx={styles.panelSize}>
+                <ContainerComponent responsibility={actionColor}>
                     <Box sx={styles.panelInputs}>
                         <Typography sx={styles.panelTitle}> Add Task Panel </Typography>
                         <EntryTaskDescriptionTitle clearInputObservable={clearInputObservable} onChangeTitle={handleTaskTitleChange} onChangeDescription={handleTaskDescriptionChange} responsibility={actionColor} />
@@ -112,8 +115,8 @@ export const AddTaskPanel = () => {
                             onClick={createTask}
                         > Create Task </Button>
                     </Box>
-                </Box>
-            </ContainerComponent>
+                </ContainerComponent>
+            </Box>
         </>
     )
 }

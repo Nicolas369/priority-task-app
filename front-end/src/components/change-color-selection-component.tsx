@@ -44,7 +44,7 @@ export const ChangeColorSelectionComponent = () => {
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleOpen}
-        sx={{   color: "#ffffff", margin: "15px" }}
+        sx={{   color: "#ffffff" }}
       >
         Select Color
       </Button>

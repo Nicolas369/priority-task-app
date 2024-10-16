@@ -3,20 +3,19 @@ import { appBorder, displayCenter, shadow } from "../theme/style"
 import { useColorBAckground } from "../store/selectors/themeSelector"
 
 
-export const ContainerComponent = ({ children, responsibility }: any) => {
+export const ContainerComponent = ({ children, responsibility, sx }: any) => {
     const bgColor = useColorBAckground();
 
     const mainStyle = {
-        width: "fit-content", 
-        height: "fit-content",
-        padding: "10px 15px",
-        // overflowY: "scroll",
+        height: "100%",
+        width: "100%",
+        padding: "10px",
+        boxSizing: "border-box",
         bgcolor: bgColor.main,
         ...displayCenter,
-        justifyContent: "start",
-        flexDirection: "column",
         ...appBorder(responsibility),
         ...shadow,
+        ...sx,
     }
 
     return ( 

@@ -13,20 +13,24 @@ import { TaskListSection } from "./tasks-list/tasks-list";
 import { displayCenter, MAX_APPLICATION_WIDTH } from "../theme/style";
 import { useColorUser } from "../store/selectors/themeSelector";
 import { AddTaskPanel } from "./add-task-panel/add-task-pannel";
+import { WeekList } from "./week-lists/week-list";
 
 const styles: Styles = {
   main: {
     width: "100%",
     height: "100vh",
     margin: "0px",
+    display: "flex",
+    flexDirection: "column",
+    boxSizing: "border-box",
   },
   contentApp: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    padding: " 60px 25px 10px",
     color: `text.default`,
-    padding: "25px",
     boxSizing: "border-box",
-    ...displayCenter,
-    justifyContent: "start",
-
   },
   containerApp: {
     ...MAX_APPLICATION_WIDTH,
@@ -106,7 +110,8 @@ export const TaskAppMainSection = () => {
       <Box sx={styles.main}>
         <Header />
         <Box sx={styles.contentApp}>
-          <AddTaskPanel /> 
+            <AddTaskPanel />
+            <WeekList />  
             {/* <Box sx={styles.containerApp} >
               <div style={styles.taskList}>
                 <p>currently using: {isAxios ? "Axios" : "GraphQl"}</p>
@@ -122,7 +127,7 @@ export const TaskAppMainSection = () => {
                 </div>
                 <TaskListSection tasksList={tasksListRedux} emitTaskList={updateTaskListOrder}/>
               </div>
-            </Box> */}
+            </Box>  */}
 
             {/* { openModal && 
               <ModalSection
@@ -142,3 +147,7 @@ export const TaskAppMainSection = () => {
     </>
   );
 }
+
+
+// [ ] aprender a tomar un valor de size 100% entre dos contenedores solo con el del espacio diponible.
+// [ ]

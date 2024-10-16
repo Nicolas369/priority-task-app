@@ -36,7 +36,6 @@ export const Header = () => {
 
   return (
     <>
-      <Box sx={{ width: "100%", height: "50px", bgcolor: "red" }}></Box>
       <Box sx={styles.main}>
         <Box sx={styles.containerHeader}>
           <ChangeColorSelectionComponent /> 
