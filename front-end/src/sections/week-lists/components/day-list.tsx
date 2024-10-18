@@ -18,7 +18,6 @@ const styles: Styles = {
         maxWidth: "250px",
         minWidth: "250px",
         marginRight: "10px",
-        backgroundColor: "red"
     },
     columnTitle: { ...displayCenter, marginBottom: "15px" },
 }
