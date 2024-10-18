@@ -7,7 +7,7 @@ export const useSelectLastOrder =  () => useSelector(
     (store: RootState) => {
         const taskList = [...store.tasks.taskList]
         const lastIndex = taskList.length - 1;
-        const lastTask = taskList.sort((a, b) => a.taskOrder - b.taskOrder)[lastIndex]
+        const lastTask = taskList.sort((a, b) => a.taskOrder! - b.taskOrder!)[lastIndex] // [ ] refactor
         return lastTask?.taskOrder;
     }
 );

@@ -6,7 +6,7 @@ const App = () => {
     const appBackground = useColorBAckground()
     
     return (
-        <Box sx={{bgcolor: appBackground.default, color: `text.default`}}>
+        <Box sx={{bgcolor: appBackground.default, color: `text.default`, width: "fit-content"}}>
             <TaskAppMainSection />
         </Box>
     )

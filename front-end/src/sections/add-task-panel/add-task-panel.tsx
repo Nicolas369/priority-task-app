@@ -17,7 +17,7 @@ const makeStyles = (color: any) => ({
     panelSize: {
         height: "100%",
         width: "345px",
-        marginRight: "25px",
+        marginRight: "10px",
         boxSizing: "border-box",
     },
     panelTitle: {
@@ -77,8 +77,8 @@ export const AddTaskPanel = () => {
     const handleTimeLIneSelection = (timeLine: any) => {
         setTaskObject({
             ...taskObject,
-            startDate: timeLine.startDay,
-            finishDate: timeLine.finishDay,
+            startDate: timeLine.startDay?.format('YYYY-MM-DD'),
+            finishDate: timeLine.finishDay?.format('YYYY-MM-DD'),
         });
     }
     
@@ -91,6 +91,7 @@ export const AddTaskPanel = () => {
         const newTask = {
             ...taskObject,
             priorityLv: taskObject.priorityLv ? taskObject.priorityLv : 3,
+            index: Number.MAX_SAFE_INTEGER,
             isComplete: false,
             date: new Date(),
         }

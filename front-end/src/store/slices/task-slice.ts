@@ -15,7 +15,7 @@ export const taskSlice = createSlice({
   initialState,
   reducers: {
     storeTasksList: (state, action: PayloadAction<Task[]>) => {
-      state.taskList = action.payload;
+      state.taskList = [...action.payload];
     },
     setSelectedTask: (state, action: PayloadAction<number | string>) => {
       state.selectedTask = action.payload;
@@ -35,12 +35,12 @@ export const taskSlice = createSlice({
       })
       .addCase(tasksREST_POST.updateTasksListOrder.fulfilled, (state, action) => {
         state.taskList = action.payload;
+        console.log(action.payload)
       })
       .addCase(tasksREST_POST.updateTasksListOrder.rejected, (state, action) => {
         console.error(action.error.message); // [ ] handle error
       })
       .addCase(tasksREST_POST.addTask.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.taskList = action.payload;
       })
       .addCase(tasksREST_POST.addTask.rejected, (state, action) => {

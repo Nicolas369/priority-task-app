@@ -13,8 +13,6 @@ const getTaskList = (_, res) => sendTaskList(res);
 
 const updateTaskListIndexOrder = async (req, res) => {
     const taskList = req.body.list;
-    taskList.forEach( task => validateTask(task) );
-    console.log(taskList);
     await db.updateListTaskIndex(taskList);
     sendTaskList(res);
 }

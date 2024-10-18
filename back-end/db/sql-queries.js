@@ -36,9 +36,11 @@ const insert_value_in_task_list_table = `
         task_description,
         task_priority_lv,
         task_start_date,
-        task_finish_date
-    ) 
+        task_finish_date,
+        task_index
+    )
     VALUES (
+        ?,    
         ?,    
         ?,    
         ?,    

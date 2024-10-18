@@ -117,9 +117,8 @@ const updateListTaskIndex = async (tasks) => {
 
     for (let index = 0; index < tasks.length; index++ ) {
         let task = tasks[index];
-        
-        console.log(tasks[index])
-        
+        console.log(task);
+                
         await queryWriteDB(
             db, 
             SQL.update_task_index_in_task_list_table,

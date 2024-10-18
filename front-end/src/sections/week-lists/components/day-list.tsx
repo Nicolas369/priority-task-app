@@ -1,58 +1,60 @@
 import { Droppable } from "react-beautiful-dnd";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { displayCenter } from "../../../theme/style";
 import { Styles } from "../../../definitions/pages-definitions";
 import { TaskItem } from "./task-item";
 import { useColorDefault } from "../../../store/selectors/themeSelector";
+import { Task } from "../../../definitions/redux-definitions";
+import { DayColumn } from "../../../definitions/task-order-definition";
 import { useTaskOrder } from "../../../hooks/useOrder";
 
-export const DayList = ({
-    day
-}: {
-  day: any // {name: string, id: string},
-}) => {
-    const taskList = day.tasks; // [ ] change this 
+const styles: Styles = {
+    column: {
+        height: "100%",
+        minHeight: "250px",
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "scroll",
+        maxWidth: "250px",
+        minWidth: "250px",
+        marginRight: "10px",
+        backgroundColor: "red"
+    },
+    columnTitle: { ...displayCenter, marginBottom: "15px" },
+}
+
+export const DayList = ({ day }: { day: DayColumn }) => {
     const defaultColor = useColorDefault(); // [ ] this came from the hook with the now highlight
-    // const { taskList } = useTaskOrder();
+    const { currentWeekDay } = useTaskOrder();
 
-
-    const styles: Styles = {
-        column: {
-            flexGrow: 1,
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "250px",
-            minWidth: "250px",
-            marginRight: "10px",
-        },
-        columnTitle: { ...displayCenter, marginBottom: "15px" },
-        columnContent: { height: "100%", width: "100%" }
-    }
+    const taskList:Task[] = currentWeekDay[parseInt(day.id)].tasks!;
 
     const DroppableArea =  ({children}: any) => (
         <Droppable droppableId={day.id}>
             {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps}>
+                <div ref={provided.innerRef} {...provided.droppableProps} style={styles.column}>
                     {children}
-                    {provided.placeholder} {/* Placeholder for spacing */}
+                    {
+                        taskList
+                        .sort( (a: Task, b: Task) => a.index! - b.index! )
+                        .map( (t: any, i: number) => 
+                            <TaskItem key={`item: ${i}`} task={t} index={i} responsibility={defaultColor}/> 
+                        )
+                    }
+                    {provided.placeholder}
                 </div>
-                )}
+            )}
         </Droppable> 
-    )
+    );
 
-
-  return (
-    <DroppableArea>
-        <Box sx={styles.column} >
-            <Typography sx={styles.columnTitle}>
-                {day.name}
-            </Typography>
-            <Box sx={styles.columnContent}>
-                {taskList.map( (t: any, i: number) => <TaskItem task={t} index={i} responsibility={defaultColor}/> )}
-            </Box>
-        </Box>
-    </DroppableArea>
-  );
+    return (
+        <>
+            <DroppableArea>
+                <Typography sx={styles.columnTitle}>{day.name}</Typography>
+                
+            </DroppableArea>
+        </>
+    );
 };
 
 

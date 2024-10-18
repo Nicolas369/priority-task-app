@@ -34,7 +34,6 @@ const resolvers = {
         },
         deleteTask: async (_, { taskId }) => {
             taskId = parseInt(taskId);
-            console.log(taskId);
             await db.deleteTask(taskId);
             return await sendTaskList();
         }

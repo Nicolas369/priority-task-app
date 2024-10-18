@@ -1,13 +1,15 @@
+
 export type Task = {
     title: string;
     id?: string | number;
     description: string;
     priorityLv: number;
     isComplete: boolean;
-    taskOrder: number;
-    date: Date;
-    startDate?: Date;
-    finishDate?: Date;
+    taskOrder?: number; // [ ] remove this 
+    index?: number | null;
+    date: Date | string;
+    startDate?:  string | null;
+    finishDate?: string | null;
 }
 
 export type InitialTaskState = {

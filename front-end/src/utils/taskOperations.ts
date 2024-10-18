@@ -6,8 +6,11 @@ export const assembleTask = (task: any) => {
         description: task.description,
         priorityLv: parseInt(task.priorityLv),
         isComplete: task.isComplete,
-        taskOrder: task.taskOrder,
-        date: task.date
+        startDate: task.startDate,
+        finishDate: task.finishDate,
+        date: task.date,
+        index: task.index,
+        id: task.id,
     }
 
     if (task.id) taskAssembled.id = task.id;

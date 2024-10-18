@@ -4,7 +4,8 @@ const buildTaskForSQLInsertion = (task) => {
         task.description,
         task.priorityLv,
         task.startDate,
-        task.finishDate
+        task.finishDate,
+        task.index
     ]
 }
 
@@ -36,12 +37,15 @@ const buildTaskForSend = (task) => {
 }
 
 const isTask = (task) =>  {
-
     if (
         task.title && 
         task.description && 
         task.priorityLv && 
-        typeof task.isComplete === "boolean" && 
+        (
+            typeof task.isComplete === "boolean" || 
+            typeof task.isComplete === "number"
+        ) && 
+        task.index && 
         task.date && 
         task.id
     ) {

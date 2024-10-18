@@ -26,7 +26,6 @@ export const useHttp = () => {
     );
   };
   const updateTaskListOrder = (list: Task[]) => {
-    setTasksList(list);
     dispatch(
       useAxios
         ? tasksREST_POST.updateTasksListOrder(list)

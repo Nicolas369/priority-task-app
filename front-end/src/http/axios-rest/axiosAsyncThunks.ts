@@ -14,7 +14,7 @@ const fetchTasksList = createAsyncThunk(
 const updateTasksListOrder = createAsyncThunk(
   "TaskListSlice/Axios/updateTasksListOrder",
   async (list: Task[] ) => {
-    const { data }: AxiosResponse = await axiosClient.post<Task[]>("/update-tasks-list-order", { list });
+    const { data }: AxiosResponse = await axiosClient.put<Task[]>("/update-tasks-list-order", { list });
     return data;
   }
 );

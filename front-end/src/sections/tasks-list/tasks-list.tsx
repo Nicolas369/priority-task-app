@@ -20,17 +20,21 @@ const styles: Styles = {
 };
 
 export const TaskListSection = ({ tasksList, emitTaskList }: TaskListSectionInterface) => {
-  const sortedTasksList = [...tasksList].sort((a, b) => a.taskOrder - b.taskOrder );
+  const sortedTasksList = [...tasksList].sort((a, b) => a.taskOrder! - b.taskOrder! );
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
 
     const items = Array.from(sortedTasksList);
+
     const priorityLvRange = items[result.destination.index]
       ? items[result.destination.index].priorityLv
       : items[items.length -1].priorityLv;
+
     const [reorderedItem] = items.splice(result.source.index, 1);
+
     items.splice(result.destination.index, 0, {...reorderedItem, priorityLv: priorityLvRange});
+
     const orderList: Task[] = items.map((task, i) => ({...task, taskOrder: i+1 }));
 
     emitTaskList(orderList);
