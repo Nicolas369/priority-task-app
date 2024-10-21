@@ -2,13 +2,14 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
     scalar Date
+    scalar Number
     
     type Task {
         title: String!
         description: String!
         priorityLv: Int!
         isComplete: Boolean!
-        index: Int
+        index: Number
         startDate: Date
         finishDate: Date
         date: Date!
@@ -20,7 +21,7 @@ const typeDefs = gql`
         description: String!
         priorityLv: Int!
         isComplete: Boolean
-        index: Int
+        index: Number
         startDate: Date
         finishDate: Date
     }
@@ -30,7 +31,7 @@ const typeDefs = gql`
         description: String!
         priorityLv: Int!
         isComplete: Boolean!
-        index: Int
+        index: Number
         startDate: Date
         finishDate: Date
         date: Date!

@@ -14,7 +14,6 @@ export type Task = {
 
 export type InitialTaskState = {
     taskList: Task[];
-    useAxios: boolean;
     selectedTask: number | string | null;
 }
 

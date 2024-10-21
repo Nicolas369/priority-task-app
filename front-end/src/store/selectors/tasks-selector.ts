@@ -5,28 +5,23 @@ import { TaskDayColumn, WeekDaysNumbers } from "../../definitions/ordering-defin
 import { Task } from "../../definitions/redux-definitions";
 
 export const useTaskStateSelector = () => useAppSelector(store => store);
+
 export const useTaskListSelector  = () => useSelector((store: RootState) => store.tasks.taskList);
-export const useUseAxiosSelector  = () => useSelector((store: RootState) => store.tasks.useAxios);
-export const useSelectLastOrder   =  () => useSelector(
-    (store: RootState) => {
-        const taskList = [...store.tasks.taskList]
-        const lastIndex = taskList.length - 1;
-        const lastTask = taskList.sort((a, b) => a.taskOrder! - b.taskOrder!)[lastIndex]
-        return lastTask?.taskOrder;
-    }
-);
 
 export const useSelectSelectedTask = () =>  useSelector((store: RootState) => {
     const taskList = store.tasks.taskList; 
     return taskList.find(task => task.id == store.tasks.selectedTask);
 });
 
-// ...
 export const useSelectTaskById = () => {
     const taskList = useTaskListSelector()
 
     const selectTaskById = (taskId: number) => {
-        return taskList.find(task => task.id === taskId);
+        return taskList.find(task => {
+            return typeof task.id === `string` 
+            ?  parseInt(task.id)
+            : task.id === taskId;
+        });
     }
 
     return { selectTaskById };
