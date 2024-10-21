@@ -20,7 +20,7 @@ const styles: Styles = {
     },
     container: {
         margin: "0px 0.5rem",
-        borderColor: "transparent"
+        border: "none"
     }
 }
 
