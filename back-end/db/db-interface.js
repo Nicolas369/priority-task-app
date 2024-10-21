@@ -112,17 +112,17 @@ const getTaskList = async () => {
  *  @param { Array } tasks - Array of task
  *  @description UPDATE all index of the past task Array following the index position of array 
  */
-const updateListTaskIndex = async (tasks) => {
+const updateListTaskOrder = async (tasks) => {
     const db = openConnection();
 
     for (let index = 0; index < tasks.length; index++ ) {
         let task = tasks[index];
+
         console.log(task);
-                
         await queryWriteDB(
             db, 
             SQL.update_task_index_in_task_list_table,
-            [index, task.id], 
+            [task.index, task.startDate, task.finishDate, task.id], 
             "Error in UPDATE Task in task_list Table query: update_task_index_in_task_list_table"
         );
     }
@@ -221,7 +221,7 @@ module.exports = {
     getTaskList,
     addNewTask,
     updateTask,
-    updateListTaskIndex,
+    updateListTaskOrder,
     deleteTask,
     selectTask
 }

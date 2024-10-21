@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 
 export type ColorsType = "primary" | "secondary" | "tertiary";
+
 export type ColorResponsibilityType =
   | "USER"
   | "ACTION"
@@ -21,40 +22,6 @@ export enum ColorResponsibility {
   DEFAULT = "DEFAULT",
   BACKGROUND = "BACKGROUND",
 }
-
-// export const COLORS = {
-//   // [] set color changer;
-//   USER: {
-//     main: "tertiary.main",
-//     dark: "tertiary.dark",
-//     border: "tertiary.border",
-//     background: "tertiary.background",
-//   },
-//   ACTION: {
-//     main: "primary.main",
-//     dark: "primary.dark",
-//     border: "primary.border",
-//     background: "primary.background",
-//   },
-//   HIGHLIGHT: {
-//     main: "secondary.main",
-//     dark: "secondary.dark",
-//     border: "secondary.border",
-//     background: "secondary.background",
-//   },
-//   DEFAULT: {
-//     main: "primary.main",
-//     dark: "primary.dark",
-//     border: "primary.border",
-//     background: "primary.background",
-//   },
-//   BACKGROUND: {
-//     main: "background.main",
-//     secondary: "background.secondary",
-//     light: "background.light",
-//     default: "background.default",
-//   },
-// };
 
 export const MAX_APPLICATION_WIDTH: CSSProperties = { 
   maxWidth: "1280px",

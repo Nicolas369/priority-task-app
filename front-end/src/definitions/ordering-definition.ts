@@ -32,9 +32,12 @@ export enum WeekDaysNumbers {
     BACKLOG = 7
 }
 
-export interface  UseTaskOrderReturn {
+export interface  useOrderReturn {
     orderTaskInTimeLine: (reorderAction: any) => void;
     daysWeekOrder: DayColumn[];
+    currentWeek: TaskDayColumn[];
 }
 
-export type UseTaskOrderHook = () => UseTaskOrderReturn;
+export type useOrderHook = () => useOrderReturn;
+
+export type ScrollRect =  DOMRect | undefined;

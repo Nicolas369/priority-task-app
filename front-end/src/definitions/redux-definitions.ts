@@ -5,7 +5,7 @@ export type Task = {
     description: string;
     priorityLv: number;
     isComplete: boolean;
-    taskOrder?: number; // [ ] remove this 
+    // taskOrder?: number; // [ ] remove this 
     index?: number | null;
     date: Date | string;
     startDate?:  string | null;

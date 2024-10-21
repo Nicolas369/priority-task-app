@@ -1,4 +1,4 @@
-import { createTheme, Typography } from "@mui/material";
+import { createTheme } from "@mui/material";
 import {
   amber,
   blue,
@@ -39,7 +39,7 @@ const colorMessageSelection: any = {
     warningBorder: yellow[300],
     error: red[600],
     errorBorder: red[300],
-  },
+  }
 };
 
 export const priorityTaskAppTheme = createTheme({

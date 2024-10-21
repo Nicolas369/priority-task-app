@@ -2,30 +2,48 @@ import { Box } from "@mui/material";
 import { Styles } from "../../definitions/global-definitions";
 import { DragDropContext } from "react-beautiful-dnd";
 import { DayList } from "./components/day-list";
-import { useTaskOrder } from "../../hooks/useOrder";
-import { useScroll } from "../../hooks/useScroll";
+import { useOrder } from "../../hooks/useOrder";
 
 export const WeekList = () => {
-    const { daysWeekOrder, orderTaskInTimeLine } = useTaskOrder();
-    const { scrollElement, onDragActionStart, onDragActionEnd } = useScroll();
+    const { daysWeekOrder, currentWeek, orderTaskInTimeLine } = useOrder();
 
     const styles: Styles = {
         main: {
             display: "flex",
             paddingBottom: "10px",
             boxSizing:"border-box",
+            overflowX: "scroll"
+        },
+        scrollGuideLeft: {
+            zIndex: 100,
+            height: "100%",
+            float: "left",
+            position: "fixed"
+        },
+        scrollGuideRight: {
+            zIndex: 100,
+            height: "100%",
+            position: "fixed",
+            right: 0
         }
     }
 
     const onDragEnd = (result: any) => {
         orderTaskInTimeLine(result);
-        onDragActionEnd();
     }
 
     return (
-        <Box ref={scrollElement} style={styles.main}>
-            <DragDropContext onDragStart={onDragActionStart} onDragEnd={onDragEnd}>
-                {daysWeekOrder.map((day, i:number) => <DayList key={`list: ${i}`} day={day} />)}
+        <Box style={styles.main}>
+            <DragDropContext onDragEnd={onDragEnd}>
+                {
+                    daysWeekOrder.map((day, i:number) => {
+                        const listDayIndex = parseInt(day.id);
+                        const taskList = currentWeek[listDayIndex].tasks
+                        return(
+                            <DayList key={`list: ${i}`} day={{ ...day, tasks: taskList }} />
+                        )
+                    })
+                }
             </DragDropContext>
         </Box>
     )

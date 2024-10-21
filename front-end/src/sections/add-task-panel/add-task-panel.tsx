@@ -1,11 +1,10 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useHttp } from "../../hooks/useHttp";
 import { useColorAction } from "../../store/selectors/themeSelector";
 import { ContainerComponent } from "../../components/container-component";
-import { PrioritySelector } from "./section-components/priority-selector";
-import { displayCenter } from "../../theme/style";
-import { SetTimeLineComponent } from "./section-components/set-time-line-component";
-import { EntryTaskDescriptionTitle } from "./section-components/entry-task-description-title";
+import { PrioritySelector } from "./components/priority-selector";
+import { SetTimeLineComponent } from "./components/set-time-line-component";
+import { EntryTaskDescriptionTitle } from "./components/entry-task-description-title";
 import { useState } from "react";
 import { Task } from "../../definitions/redux-definitions";
 import { isTaskToAdd } from "../../utils/taskOperations";
@@ -38,7 +37,7 @@ export const AddTaskPanel = () => {
     const styles = makeStyles(actionColor);
     const [taskObject, setTaskObject] = useState<Partial<Task>>({});
     const clearInputObservable = new TaskObservable();
-    clearInputObservable.subscribe(() => setTaskObject({}))
+    clearInputObservable.subscribe(() => setTaskObject({}));
 
     const handleTaskTitleChange = (value: string) => {
         setTaskObject({

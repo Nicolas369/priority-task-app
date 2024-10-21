@@ -61,7 +61,13 @@ const update_record_in_task_list_table = `
     WHERE task_id = ?;
 `;
 
-const update_task_index_in_task_list_table = `UPDATE task_list SET task_index = ? WHERE task_id = ?;`;
+const update_task_index_in_task_list_table = `
+    UPDATE task_list
+    SET task_index = ?,
+        task_start_date = ?,
+        task_finish_date = ?
+    WHERE task_id = ?;
+`;
 
 const delete_record_from_task_list_table = `
     DELETE FROM task_list WHERE task_id = ?;

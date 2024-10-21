@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from "dayjs";
 import { Task } from "../definitions/redux-definitions";
-import { TaskDayColumn, WEEK } from "../definitions/ordering-definition";
+import { TaskDayColumn, WEEK, WeekDaysNumbers } from "../definitions/ordering-definition";
 
 export const assembleTask = (task: any) => {
     const taskAssembled: Task =  {
@@ -80,6 +80,8 @@ export const orderWeek = (allTasks: Task[]) => {
                     
         if (checkWeek(taskStartDay)) {
             week[taskStartDay!.day()].tasks.push(task);
+        } else {
+            week[WeekDaysNumbers.BACKLOG].tasks.push(task);
         }
     });
     

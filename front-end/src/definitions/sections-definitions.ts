@@ -1,5 +1,5 @@
 import { TaskObservable } from "../utils/observable";
-import { DayColumn } from "./ordering-definition";
+import { TaskDayColumn } from "./ordering-definition";
 import { ResponsibilityColorType, Task } from "./redux-definitions";
 
 
@@ -28,14 +28,13 @@ export interface SetTimeLineInterface{
 }
 
 
-
 /**
  * Week List Section Definitions
  */
-export interface DayListInterface { day: DayColumn } 
+export interface DayListInterface { day: TaskDayColumn } 
 
 export interface TaskItemInterface {
     index: number;
     task: Partial<Task>;
     responsibility: ResponsibilityColorType;
-  }
+}

@@ -41,7 +41,7 @@ const makeStyles = (color: any) => ({
     boxSizing:"border-box",
     backgroundColor: color.default
   },
-  addTaskPanelSize: { width: "400px", height: "100%",  zIndex: -101, },
+  addTaskPanelSize: { width: "360px", height: "100%",  zIndex: -101, },
 });
 
 export const TaskAppMainSection = () => {

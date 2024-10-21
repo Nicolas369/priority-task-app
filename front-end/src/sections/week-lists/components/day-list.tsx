@@ -2,7 +2,10 @@ import { Droppable } from "react-beautiful-dnd";
 import { Styles } from "../../../definitions/global-definitions";
 import { TaskItem } from "./task-item";
 import { Task } from "../../../definitions/redux-definitions";
+<<<<<<< HEAD
 import { weekSelectors } from "../../../store/selectors/tasks-selector";
+=======
+>>>>>>> v2.0.0_REST
 import { ContainerComponent } from "../../../components/container-component";
 import { useColorDefault, useColorHighlight } from "../../../store/selectors/themeSelector";
 import { DayListInterface } from "../../../definitions/sections-definitions";
@@ -27,9 +30,8 @@ export const DayList = ({ day }: DayListInterface) => {
     const colorDefault = useColorDefault();
     const colorHighlight = useColorHighlight();
 
-    const listDay = parseInt(day.id);
     const responsibility = day.isToday ? colorHighlight : colorDefault;
-    const taskList = weekSelectors[listDay]();
+    const taskList = day.tasks
 
     return (
         <ContainerComponent sx={styles.container} responsibility={responsibility} header={day.name}>
