@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { store } from './store';
 import { Provider } from 'react-redux'
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './http/graphql';
 import { ThemeProvider } from '@mui/material/styles';
 import { priorityTaskAppTheme } from './theme';
 import App from './App';
@@ -16,13 +14,11 @@ const root = ReactDOM.createRoot(
 
 root.render(
   // <React.StrictMode>
-  <ApolloProvider client={apolloClient}>
       <Provider store={store}>
         <ThemeProvider theme={priorityTaskAppTheme}>
           <App />
         </ThemeProvider>
       </Provider>
-  </ApolloProvider>
   // </React.StrictMode>
 );
 
