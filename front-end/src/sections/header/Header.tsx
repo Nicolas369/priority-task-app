@@ -1,7 +1,7 @@
-import { Box, styled, Switch, useColorScheme } from "@mui/material"
-import { Styles } from "../../definitions/pages-definitions"
+import { Box, useColorScheme } from "@mui/material"
+import { Styles } from "../../definitions/global-definitions"
 import { bgColor, displayCenter, MAX_APPLICATION_WIDTH } from "../../theme/style"
-import { useColorAction, useColorUser } from "../../store/selectors/themeSelector";
+import { useColorUser } from "../../store/selectors/themeSelector";
 import { useSwitchConstructor } from "../../components/switch-component";
 import { ChangeColorSelectionComponent } from "../../components/change-color-selection-component";
 
@@ -15,7 +15,7 @@ export const Header = () => {
   const styles: Styles = {
     main: {
       width: "100%",
-      height: "50px",
+      height: "7vh",
       position:"fixed",
       top: 0,
       ...bgColor(userColor),

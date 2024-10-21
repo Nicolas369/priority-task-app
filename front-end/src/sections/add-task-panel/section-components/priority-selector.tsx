@@ -7,20 +7,11 @@ import { displayCenter } from "../../../theme/style";
 import { useState } from "react";
 import { AccordionComponent } from "../../../components/AccordionComponent";
 import { Box, Typography } from "@mui/material";
-import { TaskObservable } from "../../../utils/observable";
+import { PRIORITIES, PrioritySelectorInterface } from "../../../definitions/sections-definitions";
 
-// [ ] move to constant file
-const PRIORITIES = ["Non-Priority", "HIGH", "MEDIUM", "COMMON"];
+export const PrioritySelector = (props: PrioritySelectorInterface) => {
+  const { clearInputObservable, responsibility, onChange } = props;
 
-export const PrioritySelector = ({
-  clearInputObservable,
-  responsibility,
-  onChange,
-}: {
-  responsibility: any;
-  onChange: (value: string) => void;
-  clearInputObservable?: TaskObservable,
-}) => {
   const [value, setValue] = useState("");
   const [displayPriority, setDisplayPriority] = useState(false);
 
@@ -114,7 +105,6 @@ export const PrioritySelector = ({
     <>
       <AccordionComponent
         onHover={HandleHover}
-        reRender={false}
         isUse={Boolean(value)}
         responsibility={responsibility}
         label={<ComponentLabel />}

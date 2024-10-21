@@ -20,7 +20,7 @@ const makeStyles = (color: any) => ({
     width: "100%",
     height: "100%",
     display: "flex",
-    padding: " 60px 0px 0px",
+    padding: "9vh 10px 0px 0px",
     color: `text.default`,
     boxSizing: "border-box",
   },
@@ -34,17 +34,19 @@ const makeStyles = (color: any) => ({
   },
   addTaskPanelPosition: {
     position: "fixed",
-    height: "88%",
-    paddingLeft: "10px",
-    paddingBottom: "10px",
-    backgroundColor: color.default,
+    height: "91vh",
+    display:"flex",
+    paddingBottom: "1vh",
     zIndex: 100,
+    boxSizing:"border-box",
+    backgroundColor: color.default
   },
-  addTaskPanelSize: { width: "400px", height: "100%" },
+  addTaskPanelSize: { width: "400px", height: "100%",  zIndex: -101, },
 });
 
 export const TaskAppMainSection = () => {
   const colorBackground = useColorBAckground();
+
   const { getTaskList } = useHttp();
 
   useEffect(() => {

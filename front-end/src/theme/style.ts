@@ -71,7 +71,7 @@ export const displayCenter = {
 export const appBorder = (color: any) => ({
   borderStyle: "solid",
   borderWidth: "1px",
-  borderColor: color.border,
+  borderColor: color ? color.border: "transparent",
   borderRadius: "7px",
 });
 

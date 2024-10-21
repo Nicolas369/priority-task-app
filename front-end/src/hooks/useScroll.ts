@@ -34,7 +34,7 @@ export const useScroll = () => {
             }
            
             addInterval(setInterval(() => {
-                scrollElement.current!.scrollBy({
+                scrollElement.current?.scrollBy({
                     left: scrollAmount,
                     behavior: "auto",
                 });

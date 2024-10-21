@@ -8,28 +8,15 @@ import { SetTimeLineComponent } from "./section-components/set-time-line-compone
 import { EntryTaskDescriptionTitle } from "./section-components/entry-task-description-title";
 import { useState } from "react";
 import { Task } from "../../definitions/redux-definitions";
-import { thisIsTask } from "../../utils/taskOperations";
+import { isTaskToAdd } from "../../utils/taskOperations";
 import { TaskObservable } from "../../utils/observable";
 
 const makeStyles = (color: any) => ({
-    // [ ] set a right size for the panel 
-    // note: make it responsive with the screen.
     panelSize: {
         height: "100%",
         width: "345px",
-        marginRight: "10px",
+        margin: "0px 10px",
         boxSizing: "border-box",
-    },
-    panelTitle: {
-        width: "100%",
-        fontSize: "1em",
-        color: color.dark,
-        wordSpacing: "3px",
-        letterSpacing: "1px",
-        marginBottom: "15px",
-        boxSizing: "border-box",
-        textTransform:"uppercase",
-        ...displayCenter
     },
     panelInputs: {
         height:"100%",
@@ -93,20 +80,18 @@ export const AddTaskPanel = () => {
             priorityLv: taskObject.priorityLv ? taskObject.priorityLv : 3,
             index: Number.MAX_SAFE_INTEGER,
             isComplete: false,
-            date: new Date(),
         }
 
-        thisIsTask(newTask)
+        isTaskToAdd(newTask)
         ? sendTask(newTask as Task)
         : alert("please complete the Task"); // [ ] make handle message component
     }
 
     return (
-        <>
+        <Box>
             <Box sx={styles.panelSize}>
-                <ContainerComponent responsibility={actionColor}>
+                <ContainerComponent responsibility={actionColor} header={"Add Task Panel "}>
                     <Box sx={styles.panelInputs}>
-                        <Typography sx={styles.panelTitle}> Add Task Panel </Typography>
                         <EntryTaskDescriptionTitle clearInputObservable={clearInputObservable} onChangeTitle={handleTaskTitleChange} onChangeDescription={handleTaskDescriptionChange} responsibility={actionColor} />
                         <PrioritySelector clearInputObservable={clearInputObservable} onChange={handelTaskPriorityChange} responsibility={actionColor} />
                         <SetTimeLineComponent clearInputObservable={clearInputObservable} colorResponsibility={actionColor} emitTimeLine={handleTimeLIneSelection}/>
@@ -118,6 +103,6 @@ export const AddTaskPanel = () => {
                     </Box>
                 </ContainerComponent>
             </Box>
-        </>
+        </Box>
     )
 }

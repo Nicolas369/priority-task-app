@@ -7,6 +7,7 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { PickersDay, PickersDayProps } from "@mui/x-date-pickers/PickersDay";
 import { Box, Button, Typography } from "@mui/material";
 import { appBorder, displayCenter, shadow } from "../../../theme/style";
+import { SetTimeLineInterface } from "../../../definitions/sections-definitions";
 
 interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
   isTimeLine: boolean;
@@ -254,13 +255,14 @@ const makeStyles = (responsibilityColor: any) => ({
   },
 });
 
-const SetTimeLineComponent = ({ colorResponsibility, emitTimeLine, clearInputObservable }: any) => {
-  const theme = useTheme();
-
+const SetTimeLineComponent = (props: SetTimeLineInterface) => {
+  const { colorResponsibility, emitTimeLine, clearInputObservable } = props;
+  
   const [hoveredDay, setHoveredDay] = useState<Dayjs | null>(null);
   const [startDay, setStartDay] = useState<Dayjs | null>(null);
   const [finishDay, setFinishDay] = useState<Dayjs | null>(null);
   
+  const theme = useTheme();
   const responsibilityColor = (theme.palette as any)[
     colorResponsibility.main.split(".")[0]
   ];

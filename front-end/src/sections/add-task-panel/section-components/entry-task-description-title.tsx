@@ -1,7 +1,9 @@
 import { InputFieldComponent } from "../../../components/input-field-component";
+import { EntryTaskDescriptionTitleInterface } from "../../../definitions/sections-definitions";
 
-export const EntryTaskDescriptionTitle = ({ onChangeTitle, onChangeDescription, responsibility, clearInputObservable}: any) => {
-
+export const EntryTaskDescriptionTitle = (props: EntryTaskDescriptionTitleInterface) => {
+    const { onChangeTitle, onChangeDescription, responsibility, clearInputObservable } = props;
+    
     return (
         <>
             <InputFieldComponent 

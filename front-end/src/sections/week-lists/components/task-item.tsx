@@ -1,19 +1,11 @@
 import { Draggable } from "react-beautiful-dnd";
-import { Task } from "../../../definitions/redux-definitions";
 import { ContainerComponent } from "../../../components/container-component";
 import { Box, Typography } from "@mui/material";
+import { TaskItemInterface } from "../../../definitions/sections-definitions";
 
-export const TaskItem = ({
-  task,
-  index,
-  responsibility
-}: {
-  task: Partial<Task>;
-  index: number;
-  responsibility: any;
-}) => {
+export const TaskItem = (props: TaskItemInterface) => {
+  const { task, index, responsibility } = props;
 
-  // [ ] make action click for task selection
   const containerStyles = { height: "fit-content", marginBottom: "10px" }
 
   const DraggableComponent = ({children}: any) => (

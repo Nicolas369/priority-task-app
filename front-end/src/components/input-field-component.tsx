@@ -1,22 +1,15 @@
 import { TextField } from "@mui/material";
-import { TaskObservable } from "../utils/observable";
 import { useState } from "react";
+import { InputFieldInterface } from "../definitions/component-definitions";
 
 export const InputFieldComponent = ({
-    inputId,
-    label,
-    onChange,
-    isTextArea,
-    colorResponsibility,
-    clearInputObservable,
-}: {
-  inputId?: string;
-  label: string;
-  isTextArea?: boolean,
-  colorResponsibility: any;
-  onChange: (value: string) => void;
-  clearInputObservable?: TaskObservable
-}) => {
+  inputId,
+  label,
+  onChange,
+  isTextArea,
+  colorResponsibility,
+  clearInputObservable,
+}: InputFieldInterface) => {
 
   const [value, setValue] = useState("");
 

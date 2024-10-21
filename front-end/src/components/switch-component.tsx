@@ -1,6 +1,7 @@
 import { styled, Switch, useTheme } from "@mui/material"
+import { ResponsibilityColorType } from "../definitions/redux-definitions";
 
-export const useSwitchConstructor = (responsibility: any) => { // [ ] make color responsibility a type
+export const useSwitchConstructor = (responsibility: ResponsibilityColorType) => { // [ ] make color responsibility a type
     const appTheme = useTheme();
     
     // [ ] send in the selector the theme color code and remove this object 

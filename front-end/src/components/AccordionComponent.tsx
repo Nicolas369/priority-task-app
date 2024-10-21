@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { appBorder, displayCenter } from "../theme/style";
 import { useLayoutEffect, useRef, useState } from "react";
+import { AccordionInterface } from "../definitions/component-definitions";
 
 const makeStyles = (responsibility: any) => ({
   hoverMouseArea: { padding: "20px 0px" },
@@ -65,16 +66,13 @@ const makeStyles = (responsibility: any) => ({
   },
 });
 
-// [ ] make component interface
-// [ ] move this to definition folder
-// dev-note: old implementation in the 70% commit
 export const AccordionComponent = ({
   responsibility,
   children,
   label,
   isUse,
   onHover,
-}: any) => {
+}: AccordionInterface) => {
   const [inInput, setInInput] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const childrenRef = useRef<HTMLElement | null>(null);

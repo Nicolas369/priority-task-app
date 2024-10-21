@@ -20,14 +20,29 @@ export type InitialTaskState = {
 
 export type InitialThemeState = {
     colors: {
-        USER: any;
-        ACTION: any;
-        HIGHLIGHT: any;
-        DEFAULT: any;
-        BACKGROUND: any;
+        USER: ResponsibilityColorType;
+        ACTION: ResponsibilityColorType;
+        HIGHLIGHT: ResponsibilityColorType;
+        DEFAULT: ResponsibilityColorType;
+        BACKGROUND: BackgroundType;
     }
+}
+
+export type ResponsibilityColorType = {
+    main: string;
+    dark: string;
+    border: string;
+    background: string;
+}
+
+export type BackgroundType = {
+    main: string;
+    secondary: string;
+    light: string;
+    default: string;
 }
 
 export type PartialType<T> = {
     [P in keyof T]?: T[P];
 };
+

@@ -14,7 +14,7 @@ import { Task } from "../definitions/redux-definitions";
 import { useLocalState } from "./useLocalState";
 
 export const useHttp = () => {
-  const {isAxios: useAxios, setTasksList} = useLocalState();
+  const {isAxios: useAxios } = useLocalState();
 
   const dispatch = useDispatch<AppDispatch>();
 

@@ -1,5 +1,4 @@
-import { WEEK } from "../constants/constant-variables";
-import { DayColumnTask } from "../definitions/task-order-definition";
+import { TaskDayColumn, WEEK } from "../definitions/ordering-definition";
 
 export const uniqInArray = (array: any[]) => {
     var seen: any = {};
@@ -17,10 +16,4 @@ export const uniqInArrayById = (array: any[]) => {
             item.id) ? false : (seen[item.id as keyof any] = true
         );
     });
-}
-
-export const makeNewWeek = () => {
-    return WEEK.map(
-        (day:DayColumnTask) =>( {name: day.name, id:day.id, tasks: [...day.tasks.map(t => ({...t}))]})
-    )
 }
