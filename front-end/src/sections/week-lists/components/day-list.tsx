@@ -16,11 +16,11 @@ const styles: Styles = {
         flexDirection: "column",
         overflowY: "scroll",
         maxWidth: "250px",
-        minWidth: "250px",
+        minWidth: "250px"
     },
     container: {
         margin: "0px 0.5rem",
-        borderColor: "transparent"
+        border: "none"
     }
 }
 
