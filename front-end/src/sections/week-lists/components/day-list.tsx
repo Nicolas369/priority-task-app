@@ -2,10 +2,6 @@ import { Droppable } from "react-beautiful-dnd";
 import { Styles } from "../../../definitions/global-definitions";
 import { TaskItem } from "./task-item";
 import { Task } from "../../../definitions/redux-definitions";
-<<<<<<< HEAD
-import { weekSelectors } from "../../../store/selectors/tasks-selector";
-=======
->>>>>>> v2.0.0_REST
 import { ContainerComponent } from "../../../components/container-component";
 import { useColorDefault, useColorHighlight } from "../../../store/selectors/themeSelector";
 import { DayListInterface } from "../../../definitions/sections-definitions";
