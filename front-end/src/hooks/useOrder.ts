@@ -1,11 +1,11 @@
-import { Task } from "../definitions/redux-definitions";
-import { useSelectDayById, useSelectTaskById } from "../store/selectors/tasks-selector";
 import dayjs from "dayjs";
-import { useLocalState } from "./useLocalState";
+import { Task } from "../definitions/redux-definitions";
+import { useCurrentWeekTaskSelector } from "../store/selectors/tasks-selector";
 import { useHttp } from "./useHttp";
-import { useMemo } from "react";
-import { DayColumn, UseTaskOrderHook, WeekDaysNumbers } from "../definitions/ordering-definition";
+import { useEffect, useMemo, useState } from "react";
+import { DayColumn, TaskDayColumn, useOrderHook, WEEK, WeekDaysNumbers } from "../definitions/ordering-definition";
 import { makeNewWeek } from "../utils/taskOperations";
+import { useCheckDependencies } from "./useCheckDependencies";
 
 /**
  * useOrder: task and days order:
@@ -14,11 +14,23 @@ import { makeNewWeek } from "../utils/taskOperations";
  *  - The vertical order of the Task is giving by index;
  */
 
-export const useTaskOrder: UseTaskOrderHook = () => {
-    const { selectTaskById } = useSelectTaskById();
-    const { selectDayById } = useSelectDayById();
-    const { updateTaskListIndex } = useLocalState();
-    const { updateTask, updateTaskListOrder } = useHttp();
+export const useOrder: useOrderHook = () => {
+    const [currentWeek, setCurrentWeek] = useState<TaskDayColumn[]>([...WEEK]);
+    const storeWeek = useCurrentWeekTaskSelector();
+    const { updateTaskListOrder } = useHttp();
+
+    const allTask = useMemo((): Task[] => {
+        let tasks: Task[] = [];
+        const dayList = storeWeek.map(day => day.tasks);
+        dayList.forEach( list => tasks = [...tasks, ...list] );
+        return tasks ? tasks : [];
+    }, [storeWeek]);
+
+    const [checkAllTask] = useCheckDependencies([allTask]);
+
+    useEffect(() => {
+        setCurrentWeek(() => [...storeWeek]);
+    }, [checkAllTask(allTask)]);
 
     const daysWeekOrder = useMemo(() => {
         const orderWeek:DayColumn[] = [];
@@ -83,36 +95,34 @@ export const useTaskOrder: UseTaskOrderHook = () => {
 
         const sourceListId = reorderAction.source.droppableId;
         const destinationListId = reorderAction.destination.droppableId;
-        const taskForUpdateId = parseInt(reorderAction.draggableId);
 
         const sourceIndex = reorderAction.source.index;
         const destinationIndex = reorderAction.destination.index;
 
-        // task 
-        const taskForUpdate = selectTaskById(taskForUpdateId);
-        const itemUpdated = setNewTimeline(taskForUpdate!, destinationListId, sourceListId);
-        
-        // day list 
-        const destinationDayList = [...selectDayById(parseInt(destinationListId))];
+        // get the list 
+        const week = [...currentWeek];
+        const sourceList = week[parseInt(sourceListId)].tasks;
+        const destinationDayList = week[parseInt(destinationListId)].tasks;
 
-        if (destinationListId === sourceListId) {
-            destinationDayList.splice(sourceIndex, 1);
-        }
+        // update task start, finish and index 
+        const [taskForReordering] = sourceList.splice(sourceIndex, 1);
+        const taskUpdated = setNewTimeline(taskForReordering, destinationListId, sourceListId);
+        destinationDayList.splice(destinationIndex, 0, taskUpdated);
+        const destinationDayListIndexed = destinationDayList.map((item, i) => ({ ...item, index: (i+1) }));
 
-        destinationDayList.splice(destinationIndex, 0, itemUpdated);
-        const indexedTaskLIst = destinationDayList.map((item, i) => ({ ...item, index: (i+1) }));
+        // update hook state
+        week[parseInt(sourceListId)].tasks = sourceList;
+        week[parseInt(destinationListId)].tasks = destinationDayListIndexed;
+        setCurrentWeek(() => [...week]);
 
-        // redux
-        updateTaskListIndex(indexedTaskLIst);
-
-        // http
-        updateTask(itemUpdated);
-        updateTaskListOrder([...indexedTaskLIst]);
+        // update db
+        return updateTaskListOrder(destinationDayListIndexed);
     }
 
     return {
         orderTaskInTimeLine,
-        daysWeekOrder
+        daysWeekOrder,
+        currentWeek
     }
 }
 

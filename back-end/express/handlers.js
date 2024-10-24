@@ -11,9 +11,10 @@ const sendTaskList = async (res) => {
 
 const getTaskList = (_, res) => sendTaskList(res);
 
-const updateTaskListIndexOrder = async (req, res) => {
+const updateTaskListOrder = async (req, res) => {
     const taskList = req.body.list;
-    await db.updateListTaskIndex(taskList);
+    // taskList.forEach( task => validateTask(task) );
+    await db.updateListTaskOrder(taskList);
     sendTaskList(res);
 }
 
@@ -37,7 +38,7 @@ const deleteTask = async (req, res) => {
 module.exports = {
     deleteTask,
     getTaskList,
-    updateTaskListIndexOrder,
+    updateTaskListOrder,
     addTask,
     updateTask
 }
