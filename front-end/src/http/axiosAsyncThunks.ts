@@ -46,6 +46,6 @@ const updateTask = createAsyncThunk(
 );
 
 export const tasksREST_GET = { fetchTasksList }; 
-export const tasksREST_POST = { addTask, updateTasksListOrder };
-export const tasksREST_PUT = { updateTask };
+export const tasksREST_POST = { addTask };
+export const tasksREST_PUT = { updateTask, updateTasksListOrder };
 export const tasksREST_DELETE = { deleteTask };

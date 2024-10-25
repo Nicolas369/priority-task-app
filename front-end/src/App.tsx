@@ -3,10 +3,16 @@ import { TaskAppMainSection } from "./sections/main-section"
 import { useColorBAckground } from "./store/selectors/themeSelector";
 
 const App = () => {
-    const appBackground = useColorBAckground()
+    const appBackground = useColorBAckground();
+
+    const globalStyles = {
+        width: "fit-content",
+        color: `text.default`,
+        bgcolor: appBackground.default
+    }
     
     return (
-        <Box sx={{bgcolor: appBackground.default, color: `text.default`, width: "fit-content"}}>
+        <Box sx={globalStyles}>
             <TaskAppMainSection />
         </Box>
     )

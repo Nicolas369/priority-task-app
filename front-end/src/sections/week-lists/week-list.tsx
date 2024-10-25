@@ -7,24 +7,50 @@ import { useScroll } from "../../hooks/useScroll";
 
 export const WeekList = () => {
     const { daysWeekOrder, currentWeek, orderTaskInTimeLine } = useOrder();
-    const { scrollElement, onDragActionStart, onDragActionEnd } = useScroll();
+    const {
+        scrollElement, 
+        scrollElementLeft, 
+        scrollElementRight, 
+        onDragActionStart, 
+        onDragActionEnd 
+    } = useScroll();
 
     const styles: Styles = {
         main: {
             display: "flex",
             paddingBottom: "10px",
             boxSizing:"border-box",
+            overflowX: "scroll"
+        },
+        scrollGuideLeft: {
+            zIndex: 100,
+            height: "100%",
+            float: "left",
+            position: "fixed"
+        },
+        scrollGuideRight: {
+            zIndex: 100,
+            height: "100%",
+            position: "fixed",
+            right: 0
         }
     }
 
     const onDragEnd = (result: any) => {
         orderTaskInTimeLine(result);
-        onDragActionEnd();
+        onDragActionEnd(); 
+    }
+
+    if (!scrollElement.current) {
+        scrollElement.current = window as any;
     }
 
     return (
-        <Box ref={scrollElement} style={styles.main}>
-            <DragDropContext onDragStart={onDragActionStart} onDragEnd={onDragEnd}>
+        <Box style={styles.main}>
+            
+            <Box ref={scrollElementLeft}  style={styles.scrollGuideLeft} />
+
+            <DragDropContext onDragStart={onDragActionStart}  onDragEnd={onDragEnd}>
                 {
                     daysWeekOrder.map((day, i:number) => {
                         const listDayIndex = parseInt(day.id);
@@ -35,6 +61,8 @@ export const WeekList = () => {
                     })
                 }
             </DragDropContext>
+
+            <Box ref={scrollElementRight}  style={styles.scrollGuideRight} />
         </Box>
     )
 }

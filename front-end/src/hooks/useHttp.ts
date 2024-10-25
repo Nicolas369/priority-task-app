@@ -16,7 +16,7 @@ export const useHttp = () => {
   };
 
   const updateTaskListOrder = (list: Task[]) => {
-    dispatch( tasksREST_POST.updateTasksListOrder(list) );
+    dispatch( tasksREST_PUT.updateTasksListOrder(list) );
   };
   
   const addTask = (task: Task) => {

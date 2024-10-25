@@ -1,7 +1,11 @@
 import { useCallback, useRef } from "react";
+import { ScrollRect } from "../definitions/ordering-definition";
+
 
 export const useScroll = () => {
-    const scrollElement = useRef<HTMLElement>();
+    const scrollElement = useRef<HTMLElement | any>();
+    const scrollElementLeft = useRef<HTMLElement>();
+    const scrollElementRight = useRef<HTMLElement>();
     const intervals = useRef<any>([]);
    
     const addInterval = (interval: any) => {
@@ -15,49 +19,66 @@ export const useScroll = () => {
     }
 
     const makeScroll = useCallback((event:any) => {
-        if (!scrollElement.current) return;
+        let rect: ScrollRect, rectLeft: ScrollRect, rectRight: ScrollRect;
 
-        const rect = scrollElement.current.getBoundingClientRect();
+        if (scrollElementLeft.current && scrollElementRight.current) {
+            rectLeft = scrollElementLeft.current.getBoundingClientRect();
+            rectRight = scrollElementRight.current.getBoundingClientRect();
+        } else if (scrollElement.current) {
+            rect = scrollElement.current.getBoundingClientRect();
+        }
+        
+        if (rect || rectLeft && rectRight) {
 
-        if (rect) {
+            const clientRect = Boolean(rectLeft&&rectRight)
+            ? ({left: rectLeft!.left, right: rectRight!.right})
+            : rect!;
+
             let scrollAmount = 0;
 
-            const xLeft = event.clientX - rect.left;
-            const xRight = event.clientX - rect.right;
+            const xLeft = event.clientX - clientRect.left;
+            const xRight = event.clientX - clientRect.right;
 
-            if (xLeft < 50) {
-                scrollAmount = -25
+            if (xLeft < 100) {
+                scrollAmount = -5
+                console.log("xLeft < 50", xLeft);
             }
             
             if (xRight > -100) {
-                scrollAmount = 25
+                console.log("xRight < -50", xRight);
+                scrollAmount = 5
             }
            
             addInterval(setInterval(() => {
-                scrollElement.current?.scrollBy({
+                (scrollElement.current! as HTMLElement).scrollBy({
                     left: scrollAmount,
                     behavior: "auto",
                 });
-            } , 100));
+            } , 300));
 
-            if (xLeft > 75 && xRight < -350) {
+            if (xLeft > 100 && xRight < -75) {
                 clearAllIntervals();
             }
-
         }
-    }, [scrollElement.current]);
+    }, [
+        scrollElement.current,
+        scrollElementLeft.current,
+        scrollElementRight.current
+    ]);
 
     const onDragActionStart = () => {
-        scrollElement.current?.addEventListener("mousemove", makeScroll);
+        document.addEventListener("mousemove", makeScroll);
     }
 
     const onDragActionEnd = () => {
-        scrollElement.current?.removeEventListener("mousemove", makeScroll);
+        document.removeEventListener("mousemove", makeScroll);
         clearAllIntervals();
     }
 
     return {
         scrollElement,
+        scrollElementLeft,
+        scrollElementRight,
         onDragActionStart,
         onDragActionEnd
     }

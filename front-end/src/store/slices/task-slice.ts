@@ -4,7 +4,6 @@ import { Task, InitialTaskState } from '../../definitions/redux-definitions';
 import { tasksREST_DELETE, tasksREST_GET, tasksREST_POST, tasksREST_PUT } from '../../http/axiosAsyncThunks';
 import { uniqInArrayById } from '../../utils/handle-operations';
 
-
 const storeTaskList = (state:InitialTaskState, taskList: Task[]) => {
   if (!(JSON.stringify(state.taskList) == JSON.stringify(taskList))) {
     state.taskList = taskList;
@@ -37,10 +36,10 @@ export const taskSlice = createSlice({
       .addCase(tasksREST_GET.fetchTasksList.rejected, (state, action) => {
         console.error(action.error.message); // [ ] handle error
       })
-      .addCase(tasksREST_POST.updateTasksListOrder.fulfilled, (state, action) => {
+      .addCase(tasksREST_PUT.updateTasksListOrder.fulfilled, (state, action) => {
         storeTaskList(state, action.payload);
       })
-      .addCase(tasksREST_POST.updateTasksListOrder.rejected, (state, action) => {
+      .addCase(tasksREST_PUT.updateTasksListOrder.rejected, (state, action) => {
         console.error(action.error.message); // [ ] handle error
       })
       .addCase(tasksREST_POST.addTask.fulfilled, (state, action) => {

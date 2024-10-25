@@ -39,3 +39,5 @@ export interface  useOrderReturn {
 }
 
 export type useOrderHook = () => useOrderReturn;
+
+export type ScrollRect =  DOMRect | undefined;
