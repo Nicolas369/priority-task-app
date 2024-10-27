@@ -2,8 +2,11 @@ import {
     tasksREST_GET,
     tasksREST_POST,
     tasksREST_PUT,
-    tasksREST_DELETE
+    tasksREST_DELETE,
+    AxiosExtraReducer
 } from "./axios/axiosAsyncThunks";
+
+export const httpExtraReducer = AxiosExtraReducer;
 
 export const HTTP = {
     addTask: tasksREST_POST.addTask,
