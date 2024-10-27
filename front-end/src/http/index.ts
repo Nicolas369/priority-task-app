@@ -1,8 +1,14 @@
-import axios from 'axios';
+import {
+    tasksREST_GET,
+    tasksREST_POST,
+    tasksREST_PUT,
+    tasksREST_DELETE
+} from "./axios/axiosAsyncThunks";
 
-export const axiosClient = axios.create({
-    baseURL: "http://localhost:7000/express",
-    headers: {
-        'Accept': 'application/json',
-    }
-});
+export const HTTP = {
+    addTask: tasksREST_POST.addTask,
+    fetchTasksList: tasksREST_GET.fetchTasksList,
+    updateTask: tasksREST_PUT.updateTask,
+    updateTasksListOrder: tasksREST_PUT.updateTasksListOrder,
+    deleteTask: tasksREST_DELETE.deleteTask
+}

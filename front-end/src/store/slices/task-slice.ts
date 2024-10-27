@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Task, InitialTaskState } from '../../definitions/redux-definitions';
-import { tasksREST_DELETE, tasksREST_GET, tasksREST_POST, tasksREST_PUT } from '../../http/axiosAsyncThunks';
+import { tasksREST_DELETE, tasksREST_GET, tasksREST_POST, tasksREST_PUT } from '../../http/axios/axiosAsyncThunks';
 import { uniqInArrayById } from '../../utils/handle-operations';
 
 const storeTaskList = (state:InitialTaskState, taskList: Task[]) => {

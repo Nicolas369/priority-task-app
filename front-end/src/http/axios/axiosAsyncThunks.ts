@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosResponse } from "axios";
 import { axiosClient } from "./index";
-import { Task } from "../definitions/redux-definitions";
+import { Task } from "../../definitions/redux-definitions";
 
 const fetchTasksList = createAsyncThunk(
   "TaskListSlice/Axios/getTaskLIst",
