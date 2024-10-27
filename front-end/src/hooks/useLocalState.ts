@@ -1,6 +1,6 @@
 import { Task } from "../definitions/redux-definitions";
 import { useDispatch } from "react-redux";
-import { setSelectedTask, storeTasksList,updateTasksListIndex } from "../store/slices/task-slice";
+import { setSelectedTask, storeTasksList, updateTasksListIndex } from "../store/slices/task-slice";
 
 export const useLocalState = () => {
     const dispatch = useDispatch();

@@ -1,7 +1,6 @@
 const db = require("../db/db-interface");
 const { validateTask, buildTaskForSQLInsertion, buildTaskForSQLUpdate, buildTaskForSend } = require("../utils/task");
 
-
 const sendTaskList = async () => {
     const tasks = await db.getTaskList();
     return tasks.map( task => buildTaskForSend(task));

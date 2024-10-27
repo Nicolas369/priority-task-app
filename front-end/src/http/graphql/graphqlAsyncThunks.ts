@@ -20,11 +20,11 @@ export const updateTaskLIstOrder = createAsyncThunk(
     "TaskListSlice/GraphQl/updateTaskLIstOrder",
     async (list: Task[]) => {
         const taskList = { 
-            list: list.map((task: Task) => assembleTask(task))
+          list: list.map((task: Task) => assembleTask(task))
         };
         const { data } = await apolloClient.mutate({
-            mutation: graphqlMutations.updateTaskLIstOrder,
-            variables: { taskList }
+          mutation: graphqlMutations.updateTaskLIstOrder,
+          variables: { taskList }
         });
         return data.updateTaskList;
     }

@@ -10,8 +10,8 @@ export const assembleTask = (task: any) => {
         isComplete: task.isComplete,
         startDate: task.startDate,
         finishDate: task.finishDate,
-        date: task.date,
         index: task.index,
+        date: task.date,
         id: task.id,
     }
 
