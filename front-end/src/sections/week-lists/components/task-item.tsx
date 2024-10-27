@@ -22,7 +22,6 @@ export const TaskItem = (props: TaskItemInterface) => {
     </Draggable>
   );
 
-
   return (
     <>
       <DraggableComponent>

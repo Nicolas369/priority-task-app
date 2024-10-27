@@ -5,7 +5,6 @@ export type Task = {
     description: string;
     priorityLv: number;
     isComplete: boolean;
-    // taskOrder?: number; // [ ] remove this 
     index?: number | null;
     date: Date | string;
     startDate?:  string | null;
@@ -44,4 +43,3 @@ export type BackgroundType = {
 export type PartialType<T> = {
     [P in keyof T]?: T[P];
 };
-

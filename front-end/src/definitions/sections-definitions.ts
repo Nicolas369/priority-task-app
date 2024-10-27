@@ -2,7 +2,6 @@ import { TaskObservable } from "../utils/observable";
 import { TaskDayColumn } from "./ordering-definition";
 import { ResponsibilityColorType, Task } from "./redux-definitions";
 
-
 /**
  * Add Task Panel Section Definitions
  */
@@ -26,7 +25,6 @@ export interface SetTimeLineInterface{
     emitTimeLine: (timeLine: any) => void;
     colorResponsibility: ResponsibilityColorType;
 }
-
 
 /**
  * Week List Section Definitions

@@ -12,17 +12,17 @@ export interface AccordionInterface {
 }
 
 export interface ContainerInterface {
-    children: GenericElementType;
-    responsibility?: ResponsibilityColorType;
-    header?: string;
-    sx?: CSSProperties;
+  children: GenericElementType;
+  responsibility?: ResponsibilityColorType;
+  header?: string;
+  sx?: CSSProperties;
 }
 
 export interface InputFieldInterface {
-    inputId?: string;
-    label: string;
-    isTextArea?: boolean,
-    colorResponsibility: ResponsibilityColorType;
-    onChange: (value: string) => void;
-    clearInputObservable?: TaskObservable
+  inputId?: string;
+  label: string;
+  isTextArea?: boolean,
+  colorResponsibility: ResponsibilityColorType;
+  onChange: (value: string) => void;
+  clearInputObservable?: TaskObservable
 }

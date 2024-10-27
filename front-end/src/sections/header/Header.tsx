@@ -5,7 +5,6 @@ import { useColorUser } from "../../store/selectors/themeSelector";
 import { useSwitchConstructor } from "../../components/switch-component";
 import { ChangeColorSelectionComponent } from "../../components/change-color-selection-component";
 
-
 export const Header = () => {
   const { mode, setMode } = useColorScheme();
   const userColor = useColorUser();

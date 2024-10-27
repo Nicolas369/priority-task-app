@@ -75,35 +75,35 @@ const storeTaskList = (state:InitialTaskState, taskList: Task[]) => {
 }
 
 export const GraphQLExtraReducer = (builder: any) => {
-    builder
-      .addCase(taskGraphQL_Query.getTasksList.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
-        state.taskList = action.payload;
-      })
-      .addCase(taskGraphQL_Query.getTasksList.rejected, (state: InitialTaskState, action: any) => {
-        console.error(action.error.message); // [ ] handle error
-      })
-      .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.fulfilled, (state: InitialTaskState, action:PayloadAction<Task[]>) => {
-        state.taskList = action.payload;
-      })
-      .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.rejected, (state: InitialTaskState, action: any) => {
-        console.error(action.error.message); // [ ] handle error
-      })
-      .addCase(taskGraphQL_Mutation.addTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
-        state.taskList = action.payload;
-      })
-      .addCase(taskGraphQL_Mutation.addTask.rejected, (state: InitialTaskState, action: any) => {
-        console.error(action.error.message); // [ ] handle error
-      })
-      .addCase(taskGraphQL_Mutation.updateTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
-        storeTaskList(state, action.payload);
-      })
-      .addCase(taskGraphQL_Mutation.updateTask.rejected, (state: InitialTaskState, action: any) => {
-        console.error(action.error.message); // [ ] handle error
-      })
-      .addCase(taskGraphQL_Mutation.deleteTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
-        state.taskList = action.payload;
-      })
-      .addCase(taskGraphQL_Mutation.deleteTask.rejected, (state: InitialTaskState, action: any) => {
-        console.error(action.error.message); // [ ] handle error
-      })
-  }; 
+  builder
+    .addCase(taskGraphQL_Query.getTasksList.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Query.getTasksList.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.fulfilled, (state: InitialTaskState, action:PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.addTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Mutation.addTask.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.updateTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      storeTaskList(state, action.payload);
+    })
+    .addCase(taskGraphQL_Mutation.updateTask.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.deleteTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Mutation.deleteTask.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+}; 
