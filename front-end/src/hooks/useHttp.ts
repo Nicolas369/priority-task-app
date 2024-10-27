@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { taskGraphQL_Mutation, taskGraphQL_Query } from "../http/graphql/graphqlAsyncThunks";
+import { HTTP } from "../http";
 import { AppDispatch } from "../store";
 import { Task } from "../definitions/redux-definitions";
 
@@ -7,19 +7,23 @@ export const useHttp = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const getTaskList = () => {
-    dispatch( taskGraphQL_Query.getTasksList() );
+    dispatch(HTTP.fetchTasksList());
   };
+
   const updateTaskListOrder = (list: Task[]) => {
-    dispatch( taskGraphQL_Mutation.updateTaskLIstOrder(list) );
+    dispatch(HTTP.updateTasksListOrder(list));
   };
+  
   const addTask = (task: Task) => {
-    dispatch( taskGraphQL_Mutation.addTask(task) );
+    dispatch(HTTP.addTask(task));
   };
+  
   const updateTask = (task: Task) => {
-    dispatch( taskGraphQL_Mutation.updateTask(task) );
+    dispatch(HTTP.updateTask(task));
   };
+  
   const deleteTask = (taskId: string | number) => {
-    dispatch( taskGraphQL_Mutation.deleteTask(taskId) );
+    dispatch(HTTP.deleteTask(taskId));
   };
 
   return {
