@@ -2,13 +2,16 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
     scalar Date
+    scalar Number
     
     type Task {
         title: String!
         description: String!
         priorityLv: Int!
         isComplete: Boolean!
-        taskOrder: Int!
+        index: Number
+        startDate: Date
+        finishDate: Date
         date: Date!
         id: ID!
     }
@@ -17,9 +20,10 @@ const typeDefs = gql`
         title: String!
         description: String!
         priorityLv: Int!
-        isComplete: Boolean!
-        taskOrder: Int!
-        date: Date!
+        isComplete: Boolean
+        index: Number
+        startDate: Date
+        finishDate: Date
     }
 
     input InputUpdateTask {
@@ -27,7 +31,9 @@ const typeDefs = gql`
         description: String!
         priorityLv: Int!
         isComplete: Boolean!
-        taskOrder: Int!
+        index: Number
+        startDate: Date
+        finishDate: Date
         date: Date!
         id: ID!
     }
@@ -38,7 +44,6 @@ const typeDefs = gql`
 
     type Query {
         getTasksList: [Task]!
-        getTask(taskId:ID!): Task!
     }
 
     type Mutation {

@@ -1,7 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { apolloClient } from "./index";
 import { graphqlMutations } from "./mutations";
-import { Task } from "../../definitions/redux-definitions";
+import { InitialTaskState, Task } from "../../definitions/redux-definitions";
 import { graphqlQueries } from "./queries";
 import { assembleTask } from "../../utils/taskOperations";
 
@@ -20,11 +20,11 @@ export const updateTaskLIstOrder = createAsyncThunk(
     "TaskListSlice/GraphQl/updateTaskLIstOrder",
     async (list: Task[]) => {
         const taskList = { 
-            list: list.map((task: Task) => assembleTask(task))
+          list: list.map((task: Task) => assembleTask(task))
         };
         const { data } = await apolloClient.mutate({
-            mutation: graphqlMutations.updateTaskLIstOrder,
-            variables: { taskList }
+          mutation: graphqlMutations.updateTaskLIstOrder,
+          variables: { taskList }
         });
         return data.updateTaskList;
     }
@@ -67,3 +67,43 @@ export const deleteTask = createAsyncThunk(
 
 export const taskGraphQL_Query = { getTasksList };
 export const taskGraphQL_Mutation = { addTask, updateTask, deleteTask, updateTaskLIstOrder };
+
+const storeTaskList = (state:InitialTaskState, taskList: Task[]) => {
+    if (!(JSON.stringify(state.taskList) == JSON.stringify(taskList))) {
+      state.taskList = taskList;
+    }
+}
+
+export const GraphQLExtraReducer = (builder: any) => {
+  builder
+    .addCase(taskGraphQL_Query.getTasksList.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Query.getTasksList.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.fulfilled, (state: InitialTaskState, action:PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Mutation.updateTaskLIstOrder.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.addTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Mutation.addTask.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.updateTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      storeTaskList(state, action.payload);
+    })
+    .addCase(taskGraphQL_Mutation.updateTask.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+    .addCase(taskGraphQL_Mutation.deleteTask.fulfilled, (state: InitialTaskState, action: PayloadAction<Task[]>) => {
+      state.taskList = action.payload;
+    })
+    .addCase(taskGraphQL_Mutation.deleteTask.rejected, (state: InitialTaskState, action: any) => {
+      console.error(action.error.message); // [ ] handle error
+    })
+}; 
