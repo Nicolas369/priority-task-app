@@ -1,6 +1,6 @@
 # Priority Task App
 
-## Fullsatck app Node JS + React TS
+## Fullsatck demo-app Node JS + React TS
 This is a Demo project to show dev skills in Fullstack development.
 Priority Task App is a Fullstack project with its own database, API and UI.
 
