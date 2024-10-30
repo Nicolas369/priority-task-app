@@ -1,6 +1,21 @@
-const sqlite3 = require("sqlite3").verbose();
-const SQL = require("./sql-queries");
+require('dotenv').config();
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
+const username = process.env.USER_NAME;
+const password = process.env.PASSWORD;
+
+const connectToDB = async () => {
+    try {
+
+        const uri = `mongodb+srv://${username}:${password}@cluster001.gawxh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster001`;
+        await mongoose.connect(uri);
+        console.log("Mongo Connected!!!");
+
+    } catch (err) {
+        console.error(err);
+    }
+}
 
 /**
  *   task schema
@@ -19,208 +34,96 @@ const SQL = require("./sql-queries");
  *   +--------------+-----------+
 **/
 
-
-/**
- * @description Connect to the Database
- * @private
- */
-const openConnection = () => {
-    return new sqlite3.Database(__dirname + "/task.db", sqlite3.OPEN_READWRITE, (err) => {
-        if (err) return console.error(err);
-    });
-}
-
-/**
- * @description Write Database
- * @private
- */
-const queryWriteDB = async (db, sql, arrayOfParams, errorDescription) => {
-    return await new Promise((resolve) => {
-
-        const callBack = (err) => {
-            if (err) {
-                console.error(err);
-                throw new Error(errorDescription);
-            }
-            resolve();
-        }
-
-        db.run(sql, [...arrayOfParams], callBack);
-    })
-}
-
-
-/**
- * @description Make query to Database
- * @private
- */
-const queryReadDB = async (db, sql, arrayOfParams, errorDescription) => {
-    return await new Promise((resolve) => {
-
-        const callBack = (err, rows) => {
-            if (err) {
-                console.error(err);
-                throw new Error(errorDescription);
-            }
-            resolve(rows);
-        }
-
-        arrayOfParams
-        ? db.all(sql, [...arrayOfParams], callBack)
-        : db.all(sql, callBack);
-    })
-}
-
-
-/**
- * @description create new task_list TABLE
- * @private
- */
-const createTaskTable = () => {
-    const db = openConnection();
-
-    db.run(SQL.create_table_task_list,(err) => {
-        if (err) return console.error(err);
-    });
-
-    db.close();
-}
-
-
-/**
- *  @param  { number } taskId 
- *  @return { Array | null } - return Array of Tasks 
- *  @throws - Error in bad db query
- *  @description - SELECT all task records in TABLE task_list ···
- */
-const getTaskList = async () => {
-    const db = openConnection();
-
-    const taskList = await queryReadDB(
-        db, 
-        SQL.select_all_records_from_task_list,
-        null,
-        "Error in SELECT all Task in task_list Table query: select_all_records_from_task_list"
-    )
-
-    db.close();
-    return taskList;
-}
-
-
-/**
- *  @param { Array } tasks - Array of task
- *  @description UPDATE all index of the past task Array following the index position of array 
- */
-const updateListTaskIndex = async (tasks) => {
-    const db = openConnection();
-
-    for (let index = 0; index < tasks.length; index++ ) {
-        let task = tasks[index];
-
-        await queryWriteDB(
-            db, 
-            SQL.update_task_index_in_task_list_table,
-            [task.index, task.startDate, task.finishDate, task.id], 
-            "Error in UPDATE Task in task_list Table query: update_task_index_in_task_list_table"
-        );
+const taskSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        require: true,
+    }, 
+    description: {
+        type: String,
+        require: true,
+    }, 
+    priorityLv: {
+        type: Number,
+        require: true,
+    }, 
+    isComplete: {
+        type: Boolean,
+        require: true,
+        default: false
+    }, 
+    index: {
+        type: Number,
+        require: true
+    }, 
+    startDate: {
+        type: String,
+    }, 
+    finishDate: {
+        type: String,
+    }, 
+    date: {
+        type: Date,
+        require: true,
+        default: new Date()
+    },
+    id: {
+        type: String, 
+        unique: true,
+        require: true,
+        default: uuidv4
     }
+});
 
-    db.close();
+
+const Task = mongoose.model('Task', taskSchema);
+
+const getTaskList = async () => {
+    try {
+        const taskList = await Task.find();
+        return taskList;
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+const updateListTasksIndex = async (taskList) => {
+    try {
+
+        for (let i = 0; i < taskList.length; i++) {
+
+            const find = { id: taskList[i].id };
+
+            const update = {
+                index: taskList[i].index,
+                startDate: taskList[i].startDate,
+                finishDate: taskList[i].finishDate,
+            }
+            
+            await Task.findOneAndUpdate( find, update );
+        }
+
+        return true;
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-
-/**
- *  @param { Array } task 
- *  @description INSERT task record in task_list TABLE with a task object pass as array:···
- * 
- *  @param task_title       - task[0]: { string  }
- *  @param task_description - task[1]: { string  }
- *  @param task_priority_lv - task[2]: { number  }
- *  @param task_start_date  - task[3]: { string  }
- *  @param task_finish_date - task[4]: { string  }
- */
 const addNewTask = async (task) => {
-    const db = openConnection();
-    await queryWriteDB(
-        db, 
-        SQL.insert_value_in_task_list_table,
-        [...task], 
-        "Error in Inserting new Task in task_list Table query: insert_value_in_task_list_table"
-    );
-    db.close();
-}
+    try{    
+        console.log(task)
 
-
-/**
- *  @param { Array } task 
- *  @description UPDATE task record in task_list TABLE with a task object pass as array:···
- * 
- *  @param task_title       - task[0]: { string  }
- *  @param task_description - task[1]: { string  }
- *  @param task_priority_lv - task[2]: { number  }
- *  @param task_is_complete - task[3]: { boolean }
- *  @param task_index       - task[4]: { number  }
- *  @param task_start_date  - task[5]: { string  }
- *  @param task_finish_date - task[6]: { string  }
- *  @param task_id          - task[7]: { number  }
- */
-const updateTask = async (task) => {
-    const db = openConnection();
-
-    await queryWriteDB(
-        db,
-        SQL.update_record_in_task_list_table,
-        [...task],
-        "Error in UPDATE Task in task_list TABLE query: update_record_in_task_list_table"
-    )
-
-    db.close();
-}
-
-
-/**
- *  @param { number } taskId 
- *  @description DELETE task record in task_list TABLE with a task_id ···
- */
-const deleteTask = async (taskId) => {
-    const db = openConnection();
-
-    await queryWriteDB(
-        db,
-        SQL.delete_record_from_task_list_table,
-        [taskId],
-        "Error in DELETE Task in task_list TABLE query: delete_record_from_task_list_table"
-    )
-
-    db.close();
-}
-
-
-/**
- *  @param  { number } taskId 
- *  @return { Object } 
- *  @description SELECT task record in task_list TABLE with a task_id ···
- */
-const selectTask = async (taskId) => {
-    const db = openConnection();
-
-    const task = await queryReadDB(
-        db, 
-        SQL.select_specific_record_from_task_list_table,
-        [taskId],
-        "Error in SELECT one Task by id in task_list Table query: select_all_records_from_task_list"
-    )
-
-    db.close();
-    return task.pop();
+        const newTask = new Task({ ...task });
+        await newTask.save();
+        
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 module.exports = {
+    connectToDB,
     getTaskList,
-    addNewTask,
-    updateTask,
-    updateListTaskIndex,
-    deleteTask,
-    selectTask
+    updateListTasksIndex,
+    addNewTask
 }

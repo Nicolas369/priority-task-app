@@ -10,8 +10,8 @@ const typeDefs = gql`
         priorityLv: Int!
         isComplete: Boolean!
         index: Number
-        startDate: Date
-        finishDate: Date
+        startDate: String
+        finishDate: String
         date: Date!
         id: ID!
     }
@@ -22,8 +22,8 @@ const typeDefs = gql`
         priorityLv: Int!
         isComplete: Boolean
         index: Number
-        startDate: Date
-        finishDate: Date
+        startDate: String
+        finishDate: String
     }
 
     input InputUpdateTask {
@@ -32,8 +32,8 @@ const typeDefs = gql`
         priorityLv: Int!
         isComplete: Boolean!
         index: Number
-        startDate: Date
-        finishDate: Date
+        startDate: String
+        finishDate: String
         date: Date!
         id: ID!
     }

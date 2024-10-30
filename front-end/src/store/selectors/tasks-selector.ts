@@ -19,7 +19,7 @@ export const useSelectTaskById = () => {
     const selectTaskById = (taskId: number) => {
         return taskList.find(task => {
             return typeof task.id === `string` 
-            ?  parseInt(task.id)
+            ?  parseInt(task.id) // [ ] change this to string or simple operator `==`
             : task.id === taskId;
         });
     }
