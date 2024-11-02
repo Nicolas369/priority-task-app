@@ -15,8 +15,6 @@ export const assembleTask = (task: any) => {
         id: task.id,
     }
 
-    if (task.id) taskAssembled.id = task.id;
-
     return taskAssembled;
 }
 
