@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material"
 import { appBorder, displayCenter, shadow } from "../theme/style"
 import { useColorBAckground } from "../store/selectors/themeSelector"
 import { ContainerInterface } from "../definitions/component-definitions";
+import { ErrorBoundary } from "react-error-boundary";
 
 export const ContainerComponent = (props: ContainerInterface) => {
     const { children, responsibility, header, sx } = props
@@ -39,12 +40,16 @@ export const ContainerComponent = (props: ContainerInterface) => {
         }
     }
 
+    const FallBackCOmponent = (<p>❌</p>);
+
     return (
         <Box sx={styles.main}>
             { header && <Typography sx={styles.header}>{header}</Typography> }
-            <Box sx={styles.childrenContainer}>
-                { children }
-            </Box>
+            <ErrorBoundary fallback={FallBackCOmponent}>
+                <Box sx={styles.childrenContainer}>
+                    { children }
+                </Box>
+            </ ErrorBoundary>
         </Box>
     );
 }
