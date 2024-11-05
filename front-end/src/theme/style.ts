@@ -35,7 +35,7 @@ export const displayCenter = {
   justifyContent: "center",
 };
 
-export const appBorder = (color: any) => ({
+export const appBorder = (color?: any) => ({
   borderStyle: "solid",
   borderWidth: "1px",
   borderColor: color ? color.border: "transparent",

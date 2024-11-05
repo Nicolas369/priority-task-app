@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHttp } from "../hooks/useHttp";
 import { Header } from "./header/Header";
 import { Box } from "@mui/material";
@@ -6,6 +6,7 @@ import { displayCenter, MAX_APPLICATION_WIDTH } from "../theme/style";
 import { useColorBAckground } from "../store/selectors/themeSelector";
 import { WeekList } from "./week-lists/week-list";
 import { AddTaskPanel } from "./add-task-panel/add-task-panel";
+import { ContactPage } from "./contact/contact-page";
 
 const makeStyles = (color: any) => ({
   main: {
@@ -15,6 +16,7 @@ const makeStyles = (color: any) => ({
     display: "flex",
     flexDirection: "column",
     boxSizing: "border-box",
+    flexGrow: 1,
   },
   contentApp: {
     width: "100%",
@@ -23,6 +25,7 @@ const makeStyles = (color: any) => ({
     padding: "9vh 10px 0px 0px",
     color: `text.default`,
     boxSizing: "border-box",
+    flexGrow: 1,
   },
   containerApp: {
     ...MAX_APPLICATION_WIDTH,
@@ -46,6 +49,7 @@ const makeStyles = (color: any) => ({
 
 export const TaskAppMainSection = () => {
   const colorBackground = useColorBAckground();
+  const [displayContactPage, setDisplayContactPage] = useState(false);
 
   const { getTaskList } = useHttp();
 
@@ -55,18 +59,28 @@ export const TaskAppMainSection = () => {
 
   const styles = makeStyles(colorBackground);
 
+  const toggleContactPage = () => setDisplayContactPage(!displayContactPage);
+
   return (
     <>
       <Box sx={styles.main}>
-        <Header />
+        <Header emitDisplayContact={toggleContactPage} />
         <Box sx={styles.contentApp}>
-          <Box sx={styles.addTaskPanelPosition}>
-            <AddTaskPanel />
+        {
+          displayContactPage 
+          ? <ContactPage /> 
+          : (
+              <>
+                <Box sx={styles.addTaskPanelPosition}>
+                  <AddTaskPanel />
+                </Box>
+                <Box sx={styles.addTaskPanelSize} />
+                <WeekList />
+              </>
+            )
+          }
           </Box>
-          <Box sx={styles.addTaskPanelSize} />
-          <WeekList />
         </Box>
-      </Box>
     </>
   );
 };

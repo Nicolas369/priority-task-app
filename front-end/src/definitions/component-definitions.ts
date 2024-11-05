@@ -16,6 +16,7 @@ export interface ContainerInterface {
   responsibility?: ResponsibilityColorType;
   header?: string;
   sx?: CSSProperties;
+  sxChildren?: CSSProperties;
 }
 
 export interface InputFieldInterface {

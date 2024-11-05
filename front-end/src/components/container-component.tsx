@@ -5,7 +5,7 @@ import { ContainerInterface } from "../definitions/component-definitions";
 import { ErrorBoundary } from "react-error-boundary";
 
 export const ContainerComponent = (props: ContainerInterface) => {
-    const { children, responsibility, header, sx } = props
+    const { children, responsibility, header, sx, sxChildren } = props
 
     const bgColor = useColorBAckground();
 
@@ -29,6 +29,7 @@ export const ContainerComponent = (props: ContainerInterface) => {
             padding: "10px",
             height: "100%",
             width: "100%",
+            ...sxChildren,
         },
         header: {
             backgroundColor: responsibility?.dark,
@@ -49,7 +50,7 @@ export const ContainerComponent = (props: ContainerInterface) => {
                 <Box sx={styles.childrenContainer}>
                     { children }
                 </Box>
-            </ ErrorBoundary>
+            </ErrorBoundary>
         </Box>
     );
 }
